@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.168
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hto3.CollectionHelpers", "Hto3.CollectionHelpers\Hto3.CollectionHelpers.csproj", "{B3B25198-D1F1-4ABB-801C-BD5D6CB6C008}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B3B25198-D1F1-4ABB-801C-BD5D6CB6C008}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3B25198-D1F1-4ABB-801C-BD5D6CB6C008}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3B25198-D1F1-4ABB-801C-BD5D6CB6C008}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3B25198-D1F1-4ABB-801C-BD5D6CB6C008}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {30E3D061-59B6-409D-8559-7924FA2B989D}
+	EndGlobalSection
+EndGlobal
