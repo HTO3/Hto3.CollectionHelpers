@@ -105,6 +105,9 @@ namespace Hto3.CollectionHelpers
         /// <param name="match">A delegate with the predicate that defines the conditions for choosing which elements to remove.</param>
         public static void RemoveAll<T>(this ObservableCollection<T> collection, Func<T, Boolean> match)
         {
+            if (collection == null)
+                throw new ArgumentNullException(nameof(collection));
+
             for (var i = collection.Count - 1; i >= 0; i--)
             {
                 if (match(collection[i]))
@@ -120,13 +123,16 @@ namespace Hto3.CollectionHelpers
         /// <param name="newItem">The new item</param>
         public static void ReplaceItem<T>(this ObservableCollection<T> collection, T oldItem, T newItem)
         {
-            var indexDoVelho = collection.IndexOf(oldItem);
-            if (indexDoVelho == -1)
-                throw new InvalidOperationException("O item velho não existe na coleção!");
+            if (collection == null)
+                throw new ArgumentNullException(nameof(collection));
+
+            var oldIndex = collection.IndexOf(oldItem);
+            if (oldIndex == -1)
+                throw new InvalidOperationException("The old item does not exist in collection!");
 
             typeof(ObservableCollection<T>)
                 .GetMethod("SetItem", BindingFlags.NonPublic | BindingFlags.Instance)
-                .Invoke(collection, new Object[] { indexDoVelho, newItem });
+                .Invoke(collection, new Object[] { oldIndex, newItem });
         }
         /// <summary>
         /// Replaces an item in an ObservableCollection.
@@ -137,6 +143,9 @@ namespace Hto3.CollectionHelpers
         /// <param name="newItem">The new item</param>
         public static void ReplaceItem<T>(this ObservableCollection<T> collection, Int32 index, T newItem)
         {
+            if (collection == null)
+                throw new ArgumentNullException(nameof(collection));
+
             typeof(ObservableCollection<T>)
                 .GetMethod("SetItem", BindingFlags.NonPublic | BindingFlags.Instance)
                 .Invoke(collection, new Object[] { index, newItem });
@@ -153,7 +162,7 @@ namespace Hto3.CollectionHelpers
             return tree.EmptyIfNull().SelectMany(c => branchLocator(c).FlatTree(branchLocator)).Concat(tree.EmptyIfNull());
         }
         /// <summary>
-        /// Replaces all items in an ObservableCollection with other items. It would be the same as calling the <i>Clear()</i> method and then adding the new items, but reducing the procedure to only one step to improve performance.
+        /// Replaces all items in an ObservableCollection with other items. It's the same as calling the <i>Clear()</i> method and then adding the new items, but reducing the procedure to only one step and improving the performance.
         /// </summary>
         /// <typeparam name="T">Type of the collection item</typeparam>
         /// <param name="observableCollection">The observable collection</param>
@@ -234,6 +243,24 @@ namespace Hto3.CollectionHelpers
             }
         }
         /// <summary>
+        /// Add multiple items to a collection without repeating
+        /// </summary>
+        /// <typeparam name="T">Tipo dos itens da coleção</typeparam>
+        /// <param name="list">Instância da coleção</param>
+        /// <param name="predicate">Pedicado que testa a existência do item</param>
+        /// <param name="toAdd">Coleção de itens a adicionar</param>
+        public static void AddRangeIfNotExists<T>(this ICollection<T> list, IEnumerable<T> toAdd)
+        {
+            if (toAdd != null)
+            {
+                foreach (var item in toAdd)
+                {
+                    if (!list.Contains(item))
+                        list.Add(item);
+                }
+            }
+        }
+        /// <summary>
         /// Moves a position item
         /// </summary>
         /// <typeparam name="T">Tipo dos itens da coleção</typeparam>
@@ -258,24 +285,7 @@ namespace Hto3.CollectionHelpers
             list.Remove(item);
             list.Insert(toIndex, item);
         }
-        /// <summary>
-        /// Add multiple items to a collection without repeating
-        /// </summary>
-        /// <typeparam name="T">Tipo dos itens da coleção</typeparam>
-        /// <param name="list">Instância da coleção</param>
-        /// <param name="predicate">Pedicado que testa a existência do item</param>
-        /// <param name="toAdd">Coleção de itens a adicionar</param>
-        public static void AddRangeIfNotExists<T>(this ICollection<T> list, IEnumerable<T> toAdd)
-        {
-            if (toAdd != null)
-            {
-                foreach (var item in toAdd)
-                {
-                    if (!list.Contains(item))
-                        list.Add(item);
-                }
-            }
-        }
+        
         /// <summary>
         /// Adds an item only if it does not exist in the collection
         /// </summary>
@@ -337,31 +347,27 @@ namespace Hto3.CollectionHelpers
 
             return collection.First().GetType();
         }
-        /// <summary>
-        /// Gets the symmetric difference of two sets using an equality comparer.
-        /// The symmetric difference is defined as the set of elements which are in one of the sets, but not in both.
-        /// </summary>
-        /// <remarks>
-        /// If one set has duplicate items when evaluated using the comparer, then the resulting symmetric difference will only
-        /// contain one copy of the the duplicate item and only if it doesn't appear in the other set.
-        /// </remarks>
-        /// <typeparam name="TSource">The type of elements in the collection.</typeparam>
-        /// <param name="value">The first enumerable.</param>
-        /// <param name="secondSet">The second enumerable to compare against the first.</param>
-        /// <param name="comparer">The comparer object to use to compare each item in the collection.  If null uses EqualityComparer(T).Default.</param>
-        /// <returns></returns>
-        public static IEnumerable<TSource> SymmetricDifference<TSource>(this IEnumerable<TSource> value, IEnumerable<TSource> secondSet, IEqualityComparer<TSource> comparer)
+        private static Object First(this IEnumerable collection)
         {
-            if (value == null)
-                throw new ArgumentNullException(nameof(value));
-            if (secondSet == null)
-                throw new ArgumentNullException(nameof(value));
-            
-            if (comparer == null)
-                comparer = EqualityComparer<TSource>.Default;
+            if (collection == null)
+                throw new ArgumentNullException(nameof(collection));
 
-            var result = value.Except(secondSet, comparer).Union(secondSet.Except(value, comparer), comparer);
-            return result;
+            IEnumerator enumerator = null;
+
+            try
+            {
+                enumerator = collection.GetEnumerator();
+                if (enumerator.MoveNext())
+                    return enumerator.Current;
+                else
+                    throw new InvalidOperationException("The collection is empty!");
+            }
+            finally
+            {
+                var disposableEnumerator = enumerator as IDisposable;
+                if (disposableEnumerator != null)
+                    disposableEnumerator.Dispose();
+            }
         }
         /// <summary>
         /// Gets the type of items in a homogeneous collection
@@ -404,58 +410,30 @@ namespace Hto3.CollectionHelpers
             return type;
         }
         /// <summary>
-        /// Checks if there is any element in the collection
+        /// Gets the symmetric difference of two sets using an equality comparer.
+        /// The symmetric difference is defined as the set of elements which are in one of the sets, but not in both.
         /// </summary>
-        /// <param name="collection">Coleção de dados</param>
-        /// <returns>Verdadeiro, se houver elementos</returns>
-        public static Boolean Any(this IEnumerable collection)
+        /// <remarks>
+        /// If one set has duplicate items when evaluated using the comparer, then the resulting symmetric difference will only
+        /// contain one copy of the the duplicate item and only if it doesn't appear in the other set.
+        /// </remarks>
+        /// <typeparam name="T">The type of elements in the collection.</typeparam>
+        /// <param name="value">The first enumerable.</param>
+        /// <param name="secondSet">The second enumerable to compare against the first.</param>
+        /// <param name="comparer">The comparer object to use to compare each item in the collection.  If null uses EqualityComparer(T).Default.</param>
+        /// <returns></returns>
+        public static IEnumerable<T> SymmetricDifference<T>(this IEnumerable<T> value, IEnumerable<T> secondSet, IEqualityComparer<T> comparer)
         {
-            if (collection == null)
-                throw new ArgumentNullException(nameof(collection));
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
+            if (secondSet == null)
+                throw new ArgumentNullException(nameof(value));
+            
+            if (comparer == null)
+                comparer = EqualityComparer<T>.Default;
 
-            IEnumerator enumerator = null;
-
-            try
-            {
-                enumerator = collection.GetEnumerator();
-                if (enumerator.MoveNext())
-                    return true;
-            }
-            finally
-            {
-                var disposableEnumerator = enumerator as IDisposable;
-                if (disposableEnumerator != null)
-                    disposableEnumerator.Dispose();
-            }
-
-            return false;
-        }
-        /// <summary>
-        /// Checks if there is any element in the collection
-        /// </summary>
-        /// <param name="collection">Coleção de dados</param>
-        /// <returns>Verdadeiro, se houver elementos</returns>
-        public static Object First(this IEnumerable collection)
-        {
-            if (collection == null)
-                throw new ArgumentNullException(nameof(collection));
-
-            IEnumerator enumerator = null;
-
-            try
-            {
-                enumerator = collection.GetEnumerator();
-                if (enumerator.MoveNext())
-                    return enumerator.Current;
-                else
-                    throw new InvalidOperationException("The collection is empty!");
-            }
-            finally
-            {
-                var disposableEnumerator = enumerator as IDisposable;
-                if (disposableEnumerator != null)
-                    disposableEnumerator.Dispose();
-            }
+            var result = value.Except(secondSet, comparer).Union(secondSet.Except(value, comparer), comparer);
+            return result;
         }
         /// <summary>
         /// Performs immediately an action for each item in the collection
@@ -483,14 +461,14 @@ namespace Hto3.CollectionHelpers
         /// <param name="action"></param>
         public static IEnumerable<O> ForEachSelect<T, O>(this IEnumerable<T> enumeration, Func<T, O> action)
         {
-            List<O> lista = new List<O>();
+            var list = new List<O>();
 
             foreach (T item in enumeration)
             {
-                lista.Add(action(item));
+                list.Add(action(item));
             }
 
-            return lista;
+            return list;
         }
         /// <summary>
         /// Converts a generic collection into an observable collection (ObservableCollection)

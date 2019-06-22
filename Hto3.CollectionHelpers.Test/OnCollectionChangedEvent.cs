@@ -32,7 +32,7 @@ namespace Hto3.CollectionHelpers.Test
         }
 
         [TestMethod]
-        public void ConfirmThatIsNotReentrancy()
+        public void ConfirmThatWeAreNotInEventExecution()
         {
             //Prepare
              var observableCollection = new ObservableCollection<String>();
