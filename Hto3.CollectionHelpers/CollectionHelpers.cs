@@ -11,6 +11,9 @@ using System.Text;
 
 namespace Hto3.CollectionHelpers
 {
+    /// <summary>
+    /// Class containing helpers for collection manipulation.
+    /// </summary>
     public static class CollectionHelpers
     {
         /// <summary>
@@ -44,27 +47,30 @@ namespace Hto3.CollectionHelpers
         public static String Describe<T>(this IEnumerable<T> collection, String format = "{0}", String separator = ", ")
         {
             if (!format.Contains("{0") || !format.Contains("}"))
-                throw new FormatException("O formato deve ter um e somente um token {0}!");
+                throw new FormatException("The format must have one and only one token {0}!");
 
-            var retorno = new StringBuilder();
-            var colecaoAsArray = collection.ToArray();
+            if (collection == null)
+                throw new ArgumentNullException(nameof(collection));
 
-            for (Int32 i = 0; i <= colecaoAsArray.Length - 1; i++)
+            var output = new StringBuilder();
+
+            foreach (var item in collection)
             {
-                retorno.AppendFormat(format, colecaoAsArray[i]);
-
-                if (i == colecaoAsArray.Length - 1)
-                    retorno.Remove(retorno.Length - separator.Length, separator.Length);
+                output.AppendFormat(format, item);
+                output.Append(separator);
             }
 
-            return retorno.ToString();
+            if (output.Length > 0 && !String.IsNullOrEmpty(separator))
+                output.Remove(output.Length - separator.Length, separator.Length);
+
+            return output.ToString();
         }
         /// <summary>
         /// Check if the execution stack is within a CollectionChanged call of an ObservableCollection
         /// </summary>
-        /// <param name="collection">The notificable collection</param>
+        /// <param name="collection">The observable collection</param>
         /// <returns></returns>
-        public static Boolean IsReentrancy(this INotifyCollectionChanged collection)
+        public static Boolean OnCollectionChangedEvent<T>(this ObservableCollection<T> collection)
         {
             if (collection == null)
                 throw new ArgumentNullException(nameof(collection));
@@ -80,7 +86,7 @@ namespace Hto3.CollectionHelpers
             return monitorIsBusy;
         }
         /// <summary>
-        /// I build a list from a delimited string.
+        /// Build a list from a delimited string.
         /// </summary>
         /// <typeparam name="TReturn">Type of the itens of the collection</typeparam>
         /// <param name="delimitedList">String containing a list of delimited values</param>
@@ -106,7 +112,7 @@ namespace Hto3.CollectionHelpers
             }
         }
         /// <summary>
-        /// Replaces an item in the collection
+        /// Replaces an item in an ObservableCollection.
         /// </summary>
         /// <typeparam name="T">Type of the collection item</typeparam>
         /// <param name="collection">The collection</param>
@@ -123,7 +129,7 @@ namespace Hto3.CollectionHelpers
                 .Invoke(collection, new Object[] { indexDoVelho, newItem });
         }
         /// <summary>
-        /// Replaces an item in the collection
+        /// Replaces an item in an ObservableCollection.
         /// </summary>
         /// <typeparam name="T">Type of the collection item</typeparam>
         /// <param name="collection">The collection</param>
@@ -201,7 +207,7 @@ namespace Hto3.CollectionHelpers
         /// <typeparam name="T">Tipo dos itens da coleção</typeparam>
         /// <param name="list">Instância da coleção</param>
         /// <param name="toAdd">Coleção de itens a adicionar</param>
-        public static void AddRange<T>(this IList<T> list, IEnumerable<T> toAdd)
+        public static void AddRange<T>(this ICollection<T> list, IEnumerable<T> toAdd)
         {
             if (toAdd != null)
             {
@@ -216,7 +222,7 @@ namespace Hto3.CollectionHelpers
         /// <param name="list">Instância da coleção</param>
         /// <param name="predicate">Pedicado que testa a existência do item</param>
         /// <param name="toAdd">Coleção de itens a adicionar</param>
-        public static void AddRangeIfNotExists<T>(this IList<T> list, Func<T, T, Boolean> predicate, IEnumerable<T> toAdd)
+        public static void AddRangeIfNotExists<T>(this ICollection<T> list, Func<T, T, Boolean> predicate, IEnumerable<T> toAdd)
         {
             if (toAdd != null)
             {
@@ -259,7 +265,7 @@ namespace Hto3.CollectionHelpers
         /// <param name="list">Instância da coleção</param>
         /// <param name="predicate">Pedicado que testa a existência do item</param>
         /// <param name="toAdd">Coleção de itens a adicionar</param>
-        public static void AddRangeIfNotExists<T>(this IList<T> list, IEnumerable<T> toAdd)
+        public static void AddRangeIfNotExists<T>(this ICollection<T> list, IEnumerable<T> toAdd)
         {
             if (toAdd != null)
             {
@@ -290,7 +296,7 @@ namespace Hto3.CollectionHelpers
         /// <param name="list">Coleção de dados</param>
         /// <param name="predicate">Pedicado que testa a existência do item</param>
         /// <param name="item">Item a adicionar</param>
-        public static void AddIfNotExists<T>(this IList<T> list, Func<T, Boolean> predicate, T item)
+        public static void AddIfNotExists<T>(this ICollection<T> list, Func<T, Boolean> predicate, T item)
         {
             if (list == null)
                 return;
@@ -379,12 +385,12 @@ namespace Hto3.CollectionHelpers
             {
                 enumerator = collection.GetEnumerator();
                 if (!enumerator.MoveNext())
-                    throw new InvalidOperationException("Não é possível obter o tipo de uma coleção IEnumerable que não possui nenhum item.");
+                    throw new InvalidOperationException("Can not get the type of an IEnumerable collection that has no items.");
 
                 while (enumerator.Current == null && enumerator.MoveNext()) ;
 
                 if (enumerator.Current == null)
-                    throw new InvalidOperationException("Não é possível obter o tipo de uma coleção IEnumerable que possui somente itens nulos.");
+                    throw new InvalidOperationException("Can not get the type of an IEnumerable collection that has only null items.");
 
                 type = enumerator.Current.GetType();
             }
@@ -442,7 +448,7 @@ namespace Hto3.CollectionHelpers
                 if (enumerator.MoveNext())
                     return enumerator.Current;
                 else
-                    throw new InvalidOperationException("A coleção não tem nenhum item!");
+                    throw new InvalidOperationException("The collection is empty!");
             }
             finally
             {
@@ -452,7 +458,7 @@ namespace Hto3.CollectionHelpers
             }
         }
         /// <summary>
-        /// Performs an action for each item in the collection
+        /// Performs immediately an action for each item in the collection
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="enumeration"></param>
@@ -470,7 +476,7 @@ namespace Hto3.CollectionHelpers
             return lista;
         }
         /// <summary>
-        /// Performs an action for each item in the collection
+        /// Performs immediately an action for each item in the collection
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="enumeration"></param>
@@ -500,21 +506,21 @@ namespace Hto3.CollectionHelpers
         /// Makes a work window in a data collection
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="enumeration">Coleção de dados a ser trabalhada com janela</param>
+        /// <param name="enumeration">Collection of data to be worked with window</param>
         /// <param name="windowSize">Amount of items in each window</param>
         /// <param name="action">Work to do in each window</param>
         public static void Window<T>(this IEnumerable<T> enumeration, Int32 windowSize, Action<IEnumerable<T>> action)
         {
-            var percorridos = 0;
-            var janela = default(IEnumerable<T>);
+            var cursor = 0;
+            var window = default(IEnumerable<T>);
 
             while (true)
             {
-                janela = enumeration.Skip(percorridos).Take(windowSize);
-                percorridos += windowSize;
+                window = enumeration.Skip(cursor).Take(windowSize);
+                cursor += windowSize;
 
-                if (janela.Any())
-                    action(janela);
+                if (window.Any())
+                    action(window);
                 else
                     return;
             }
