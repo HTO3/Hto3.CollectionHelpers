@@ -61,7 +61,7 @@
     <Compile Include="ForEachSelect.cs" />
     <Compile Include="GetItemType.cs" />
     <Compile Include="Move.cs" />
-    <Compile Include="OnCollectionChangedEvent.cs" />
+    <Compile Include="IsUnderCollectionChangedEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RemoveAll.cs" />
     <Compile Include="RemoveIfExists.cs" />

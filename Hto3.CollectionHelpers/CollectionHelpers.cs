@@ -70,7 +70,7 @@ namespace Hto3.CollectionHelpers
         /// </summary>
         /// <param name="collection">The observable collection</param>
         /// <returns></returns>
-        public static Boolean OnCollectionChangedEvent<T>(this ObservableCollection<T> collection)
+        public static Boolean IsUnderCollectionChangedEvent<T>(this ObservableCollection<T> collection)
         {
             if (collection == null)
                 throw new ArgumentNullException(nameof(collection));
@@ -218,11 +218,13 @@ namespace Hto3.CollectionHelpers
         /// <param name="toAdd">Coleção de itens a adicionar</param>
         public static void AddRange<T>(this ICollection<T> list, IEnumerable<T> toAdd)
         {
-            if (toAdd != null)
-            {
-                foreach (var item in toAdd)
-                    list.Add(item);
-            }
+            if (list == null)
+                throw new ArgumentNullException(nameof(list));
+            if (toAdd == null)
+                return;
+
+            foreach (var item in toAdd)
+                list.Add(item);
         }
         /// <summary>
         /// Add multiple items to a collection without repeating if the item already exists
@@ -233,13 +235,17 @@ namespace Hto3.CollectionHelpers
         /// <param name="toAdd">Coleção de itens a adicionar</param>
         public static void AddRangeIfNotExists<T>(this ICollection<T> list, Func<T, T, Boolean> predicate, IEnumerable<T> toAdd)
         {
-            if (toAdd != null)
+            if (list == null)
+                throw new ArgumentNullException(nameof(list));
+            if (predicate == null)
+                throw new ArgumentNullException(nameof(predicate));
+            if (toAdd == null)
+                return;
+
+            foreach (var item in toAdd)
             {
-                foreach (var item in toAdd)
-                {
-                    if (!list.Any(c => predicate(c, item)))
-                        list.Add(item);
-                }
+                if (!list.Any(c => predicate(c, item)))
+                    list.Add(item);
             }
         }
         /// <summary>
@@ -294,7 +300,7 @@ namespace Hto3.CollectionHelpers
         public static void AddIfNotExists(this IList list, Object item)
         {
             if (list == null)
-                return;
+                throw new ArgumentNullException(nameof(list));
 
             if (!list.Contains(item))
                 list.Add(item);
@@ -303,16 +309,18 @@ namespace Hto3.CollectionHelpers
         /// Adds an item only if it does not exist in the collection
         /// </summary>
         /// <typeparam name="T">Type of item</typeparam>
-        /// <param name="list">Coleção de dados</param>
+        /// <param name="collection">Coleção de dados</param>
         /// <param name="predicate">Pedicado que testa a existência do item</param>
         /// <param name="item">Item a adicionar</param>
-        public static void AddIfNotExists<T>(this ICollection<T> list, Func<T, Boolean> predicate, T item)
+        public static void AddIfNotExists<T>(this ICollection<T> collection, Func<T, Boolean> predicate, T item)
         {
-            if (list == null)
-                return;
+            if (collection == null)
+                throw new ArgumentNullException(nameof(collection));
+            if (predicate == null)
+                throw new ArgumentNullException(nameof(predicate));
 
-            if (!list.Any(predicate))
-                list.Add(item);
+            if (!collection.Any(predicate))
+                collection.Add(item);
         }
         /// <summary>
         /// Removes an item only if it exists in the collection
@@ -322,7 +330,7 @@ namespace Hto3.CollectionHelpers
         public static void RemoveIfExists(this IList list, Object item)
         {
             if (list == null)
-                return;
+                throw new ArgumentNullException(nameof(list));
 
             if (list.Contains(item))
                 list.Remove(item);
@@ -334,6 +342,9 @@ namespace Hto3.CollectionHelpers
         /// <returns>O tipo dos itens</returns>
         public static Type GetItemType(this ICollection collection)
         {
+            if (collection == null)
+                throw new ArgumentNullException(nameof(collection));
+
             var enumerable_type = collection.GetType()
                 .GetInterfaces()
                 .Where(i => i.IsGenericType && i.GenericTypeArguments.Length == 1)
@@ -349,9 +360,6 @@ namespace Hto3.CollectionHelpers
         }
         private static Object First(this IEnumerable collection)
         {
-            if (collection == null)
-                throw new ArgumentNullException(nameof(collection));
-
             IEnumerator enumerator = null;
 
             try
@@ -376,6 +384,9 @@ namespace Hto3.CollectionHelpers
         /// <returns>O tipo dos itens</returns>
         public static Type GetItemType(this IEnumerable collection)
         {
+            if (collection == null)
+                throw new ArgumentNullException(nameof(collection));
+
             var enumerable_type = collection.GetType()
                 .GetInterfaces()
                 .Where(i => i.IsGenericType && i.GenericTypeArguments.Length == 1)
@@ -427,7 +438,7 @@ namespace Hto3.CollectionHelpers
             if (value == null)
                 throw new ArgumentNullException(nameof(value));
             if (secondSet == null)
-                throw new ArgumentNullException(nameof(value));
+                throw new ArgumentNullException(nameof(secondSet));
             
             if (comparer == null)
                 comparer = EqualityComparer<T>.Default;
@@ -443,6 +454,11 @@ namespace Hto3.CollectionHelpers
         /// <param name="action"></param>
         public static IEnumerable<T> ForEach<T>(this IEnumerable<T> enumeration, Action<T> action)
         {
+            if (enumeration == null)
+                throw new ArgumentNullException(nameof(enumeration));
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
+
             var lista = new List<T>();
 
             foreach (T item in enumeration)
@@ -461,6 +477,11 @@ namespace Hto3.CollectionHelpers
         /// <param name="action"></param>
         public static IEnumerable<O> ForEachSelect<T, O>(this IEnumerable<T> enumeration, Func<T, O> action)
         {
+            if (enumeration == null)
+                throw new ArgumentNullException(nameof(enumeration));
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
+
             var list = new List<O>();
 
             foreach (T item in enumeration)
@@ -489,6 +510,13 @@ namespace Hto3.CollectionHelpers
         /// <param name="action">Work to do in each window</param>
         public static void Window<T>(this IEnumerable<T> enumeration, Int32 windowSize, Action<IEnumerable<T>> action)
         {
+            if (enumeration == null)
+                throw new ArgumentNullException(nameof(enumeration));
+            if (windowSize > -1)
+                throw new ArgumentOutOfRangeException(nameof(windowSize));
+            if (action == null)
+                throw new ArgumentNullException(nameof(action));
+
             var cursor = 0;
             var window = default(IEnumerable<T>);
 

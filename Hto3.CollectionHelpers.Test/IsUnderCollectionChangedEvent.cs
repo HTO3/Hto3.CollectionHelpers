@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Hto3.CollectionHelpers.Test
 {
     [TestClass]
-    public class OnCollectionChangedEvent
+    public class IsUnderCollectionChangedEvent
     {
         [TestMethod]
         public void ConfirmThatWeAreInEventExecution()
@@ -22,7 +22,7 @@ namespace Hto3.CollectionHelpers.Test
             //Act
             observableCollection.CollectionChanged += new NotifyCollectionChangedEventHandler((sender, e) =>
             {
-                onEvent = observableCollection.OnCollectionChangedEvent();
+                onEvent = observableCollection.IsUnderCollectionChangedEvent();
             });
             observableCollection.Add("first");
 
@@ -38,9 +38,9 @@ namespace Hto3.CollectionHelpers.Test
              var observableCollection = new ObservableCollection<String>();
 
             //Act
-            var onEventBefore = observableCollection.OnCollectionChangedEvent();
+            var onEventBefore = observableCollection.IsUnderCollectionChangedEvent();
             observableCollection.Add("first");
-            var onEventAfter = observableCollection.OnCollectionChangedEvent();
+            var onEventAfter = observableCollection.IsUnderCollectionChangedEvent();
 
             //Assert
             Assert.IsFalse(onEventBefore);
