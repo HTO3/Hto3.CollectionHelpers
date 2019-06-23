@@ -499,6 +499,9 @@ namespace Hto3.CollectionHelpers
         /// <returns></returns>
         public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> enumeration)
         {
+            if (enumeration == null)
+                throw new ArgumentNullException(nameof(enumeration));
+
             return new ObservableCollection<T>(enumeration);
         }
         /// <summary>

@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Hto3.CollectionHelpers;
 
 namespace Hto3.CollectionHelpers.Test
 {
