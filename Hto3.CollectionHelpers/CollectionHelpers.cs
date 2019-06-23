@@ -253,7 +253,6 @@ namespace Hto3.CollectionHelpers
         /// </summary>
         /// <typeparam name="T">Tipo dos itens da coleção</typeparam>
         /// <param name="list">Instância da coleção</param>
-        /// <param name="predicate">Pedicado que testa a existência do item</param>
         /// <param name="toAdd">Coleção de itens a adicionar</param>
         public static void AddRangeIfNotExists<T>(this ICollection<T> list, IEnumerable<T> toAdd)
         {
@@ -271,7 +270,7 @@ namespace Hto3.CollectionHelpers
         /// </summary>
         /// <typeparam name="T">Tipo dos itens da coleção</typeparam>
         /// <param name="list">Instância da coleção</param>
-        /// <param name="predicate">Pedicado que obtém o item</param>
+        /// <param name="item"></param>
         /// <param name="toIndex">Lugar aonde colocar o item</param>
         public static void Move<T>(this IList<T> list, T item, Int32 toIndex)
         {
@@ -473,6 +472,7 @@ namespace Hto3.CollectionHelpers
         /// Performs immediately an action for each item in the collection
         /// </summary>
         /// <typeparam name="T"></typeparam>
+        /// <typeparam name="O"></typeparam>
         /// <param name="enumeration"></param>
         /// <param name="action"></param>
         public static IEnumerable<O> ForEachSelect<T, O>(this IEnumerable<T> enumeration, Func<T, O> action)
