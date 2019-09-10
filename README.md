@@ -15,7 +15,8 @@ A set of extension methods that can be used to facilitate the manipulation of co
 If the collection is null then returns an empty collection.
 
 ```csharp
-//To-do put an example
+IEnumerable<String> myCollection = null;
+myCollection.EmptyIfNull().Count() == 0; //you won't get a NullReferenceException
 ```
 
 ### Describe
@@ -23,7 +24,12 @@ If the collection is null then returns an empty collection.
 Describes a list in a user-friendly String allowing you to define the format of the item (like `String.Format`), and the string to use to separate the items. Similar experience like `String.Join`.
 
 ```csharp
-//To-do put an example
+var collection = new List<Int32>();
+collection.Add(1);
+collection.Add(2);
+collection.Add(3);
+
+collection.Describe() == "1, 2, 3";
 ```
 
 ### IsUnderCollectionChangedEvent
@@ -31,7 +37,16 @@ Describes a list in a user-friendly String allowing you to define the format of 
 Check if the execution stack is within a CollectionChanged call of an ObservableCollection.
 
 ```csharp
-//To-do put an example
+var onEvent = false;
+var observableCollection = new ObservableCollection<String>();
+
+observableCollection.CollectionChanged += new NotifyCollectionChangedEventHandler((sender, e) =>
+{
+    onEvent = observableCollection.IsUnderCollectionChangedEvent();
+});
+observableCollection.Add("first");
+
+onEvent == true;
 ```
 
 ### BuildCollectionFromString
@@ -39,7 +54,14 @@ Check if the execution stack is within a CollectionChanged call of an Observable
 Build a list from a delimited string.
 
 ```csharp
-//To-do put an example
+var delimitedString = "banana;apple;juice;lemon";
+
+var result = delimitedString.BuildCollectionFromString<String>(";");
+
+result.ElementAt(0) == "banana";
+result.ElementAt(1) == "apple";
+result.ElementAt(2) == "juice";
+result.ElementAt(3) == "lemon";
 ```
 
 ### RemoveAll
