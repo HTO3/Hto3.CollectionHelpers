@@ -69,6 +69,7 @@
     <Compile Include="ReplaceItem.cs" />
     <Compile Include="SymmetricDifference.cs" />
     <Compile Include="ToObservableCollection.cs" />
+    <Compile Include="TryUntilSuccess.cs" />
     <Compile Include="Window.cs" />
   </ItemGroup>
   <ItemGroup>

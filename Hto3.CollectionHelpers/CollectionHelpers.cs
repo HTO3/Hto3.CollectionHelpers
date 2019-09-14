@@ -580,5 +580,36 @@ namespace Hto3.CollectionHelpers
                     return;
             }
         }
+        /// <summary>
+        /// Try something on each item of a collection
+        /// </summary>
+        /// <typeparam name="T">Item type</typeparam>
+        /// <param name="enumeration">The collection</param>
+        /// <param name="attempt">Action that can fail, trowing a exception. Last exception will be provided in the second <i>Action<i/> parameter.</param>
+        /// <param name="stopIfExceptionType">If an exception of assignable from this type is thrown, then the attempts will be stoped by this exception.</param>
+        public static void TryUntilSuccess<T>(this IEnumerable<T> enumeration, Action<T, Exception> attempt, Type stopIfExceptionType = null)
+        {
+            if (stopIfExceptionType != null && stopIfExceptionType.IsAssignableFrom(typeof(Exception)))
+                throw new ArgumentException($"The type {stopIfExceptionType} is not an exception");
+
+            var exceptionList = new List<Exception>();
+
+            foreach (var item in enumeration)
+            {
+                try
+                {
+                    attempt(item, exceptionList.LastOrDefault());
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    if (stopIfExceptionType != null && stopIfExceptionType.IsAssignableFrom(ex.GetType()))
+                        throw;
+                    exceptionList.Add(ex);
+                }
+            }
+
+            throw new AggregateException(exceptionList);
+        }
     }
 }
