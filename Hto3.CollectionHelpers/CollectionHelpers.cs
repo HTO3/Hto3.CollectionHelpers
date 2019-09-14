@@ -589,6 +589,8 @@ namespace Hto3.CollectionHelpers
         /// <param name="stopIfExceptionType">If an exception of assignable from this type is thrown, then the attempts will be stoped by this exception.</param>
         public static void TryUntilSuccess<T>(this IEnumerable<T> enumeration, Action<T, Exception> attempt, Type stopIfExceptionType = null)
         {
+            if (enumeration == null)
+                throw new ArgumentNullException(nameof(enumeration));
             if (stopIfExceptionType != null && stopIfExceptionType.IsAssignableFrom(typeof(Exception)))
                 throw new ArgumentException($"The type {stopIfExceptionType} is not an exception");
 
