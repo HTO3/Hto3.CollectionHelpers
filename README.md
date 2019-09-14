@@ -69,7 +69,17 @@ result.ElementAt(3) == "lemon";
 Removes all elements that satisfy the condition defined by the specified predicate.
 
 ```csharp
-//To-do put an example
+var collection = new ObservableCollection<Int32>();
+collection.Add(1);
+collection.Add(2);
+collection.Add(55);
+collection.Add(100);
+
+collection.RemoveAll(i => i > 10);
+
+collection.Count == 2;
+collection[0] == 1;
+collection[1] == 2;
 ```
 
 ### ReplaceItem
@@ -77,7 +87,17 @@ Removes all elements that satisfy the condition defined by the specified predica
 Replaces an item in an ObservableCollection.
 
 ```csharp
-//To-do put an example
+var collection = new ObservableCollection<String>();
+collection.Add("banana");
+collection.Add("apple");
+collection.Add("pinapple");
+
+collection.ReplaceItem("apple", "strawberry");
+
+collection.Count == 3;
+collection[0] == "banana";
+collection[1] == "strawberry";
+collection[2] == "pinapple";
 ```
 
 ### FlatTree

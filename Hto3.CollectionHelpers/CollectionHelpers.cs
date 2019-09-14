@@ -154,12 +154,58 @@ namespace Hto3.CollectionHelpers
         /// Flatten a tree structure
         /// </summary>
         /// <typeparam name="T">Tree nodes item type</typeparam>
-        /// <param name="tree">The Tree</param>
-        /// <param name="branchLocator">Expression that indicate where is the property of the leaves</param>
+        /// <param name="roots">The multi root tree</param>
+        /// <param name="branchLocator">Expression that indicate where is the branch property</param>
         /// <returns></returns>
-        public static IEnumerable<T> FlatTree<T>(this IEnumerable<T> tree, Func<T, IEnumerable<T>> branchLocator)
+        public static HashSet<T> FlatTree<T>(this IEnumerable<T> roots, Func<T, IEnumerable<T>> branchLocator)
         {
-            return tree.EmptyIfNull().SelectMany(c => branchLocator(c).FlatTree(branchLocator)).Concat(tree.EmptyIfNull());
+            var flattedTree = new HashSet<T>();
+            CollectionHelpers.InternalFlatTree(roots, branchLocator, flattedTree);
+            return flattedTree;
+        }
+        /// <summary>
+        /// Flatten a tree structure
+        /// </summary>
+        /// <typeparam name="T">Tree nodes item type</typeparam>
+        /// <param name="root">The Tree</param>
+        /// <param name="branchLocator">Expression that indicate where is the branch property</param>
+        /// <returns></returns>
+        public static HashSet<T> FlatTree<T>(this T root, Func<T, IEnumerable<T>> branchLocator)
+        {
+            if (root == null)
+                throw new ArgumentNullException(nameof(root));
+
+            var alreadyVisited = new HashSet<T>();
+            alreadyVisited.Add(root);
+            CollectionHelpers.InternalFlatTree(branchLocator(root), branchLocator, alreadyVisited);
+            return alreadyVisited;
+        }
+        /// <summary>
+        /// Internal method to flat a tree structure, witch contains a walking collection to store the nodes.
+        /// </summary>
+        /// <typeparam name="T">Tree nodes item type</typeparam>
+        /// <param name="branches">The multi root tree</param>
+        /// <param name="branchLocator">Expression that indicate where is the branch property</param>
+        /// <param name="alreadyVisited">Collection to store the nodes</param>
+        /// <returns></returns>
+        private static void InternalFlatTree<T>(IEnumerable<T> branches, Func<T, IEnumerable<T>> branchLocator, HashSet<T> alreadyVisited)
+        {
+            foreach (var node in branches.EmptyIfNull())
+            {
+                if (alreadyVisited.Add(node))
+                    CollectionHelpers.InternalFlatTree(branchLocator(node), branchLocator, alreadyVisited);
+            }
+        }
+        /// <summary>
+        /// Force one complete evaluation of an IEnumerable collection. Subsequent evaluation can occur after use this method, in another words, the collection will continue to be IEnumerable.
+        /// </summary>
+        /// <typeparam name="T">Item type</typeparam>
+        /// <param name="collection">IEnumerable collection</param>
+        /// <returns></returns>
+        public static IEnumerable<T> Run<T>(this IEnumerable<T> collection)
+        {
+            foreach (var _ in collection);
+            return collection;
         }
         /// <summary>
         /// Replaces all items in an ObservableCollection with other items. It's the same as calling the <i>Clear()</i> method and then adding the new items, but reducing the procedure to only one step and improving the performance.
