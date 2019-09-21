@@ -585,7 +585,7 @@ namespace Hto3.CollectionHelpers
         /// </summary>
         /// <typeparam name="T">Item type</typeparam>
         /// <param name="enumeration">The collection</param>
-        /// <param name="attempt">Action that can fail, trowing a exception. Last exception will be provided in the second <i>Action<i/> parameter.</param>
+        /// <param name="attempt">Action that can fail, trowing a exception. Last exception will be provided in the second <i>Action</i> parameter.</param>
         /// <param name="stopIfExceptionType">If an exception of assignable from this type is thrown, then the attempts will be stoped by this exception.</param>
         public static void TryUntilSuccess<T>(this IEnumerable<T> enumeration, Action<T, Exception> attempt, Type stopIfExceptionType = null)
         {
