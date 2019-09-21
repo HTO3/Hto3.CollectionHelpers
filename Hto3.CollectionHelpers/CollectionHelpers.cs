@@ -581,7 +581,7 @@ namespace Hto3.CollectionHelpers
             }
         }
         /// <summary>
-        /// Try something on each item of a collection
+        /// Try something on each item of a collection.
         /// </summary>
         /// <typeparam name="T">Item type</typeparam>
         /// <param name="enumeration">The collection</param>
@@ -612,6 +612,47 @@ namespace Hto3.CollectionHelpers
             }
 
             throw new AggregateException(exceptionList);
+        }
+        /// <summary>
+        /// Pick a random item from the collection.
+        /// </summary>
+        /// <typeparam name="T">Item type</typeparam>
+        /// <param name="collection">The collection</param>
+        /// <returns></returns>
+        public static T PickRandom<T>(this IEnumerable<T> collection)
+        {
+            return collection.PickRandom(1).First<T>();
+        }
+        /// <summary>
+        /// Pick a random item from the collection or the default item value if the sequence contains no elements.
+        /// </summary>
+        /// <typeparam name="T">Item type</typeparam>
+        /// <param name="collection">The collection</param>
+        /// <returns></returns>
+        public static T PickRandomOrDefault<T>(this IEnumerable<T> collection)
+        {
+            return collection.PickRandom(1).FirstOrDefault();
+        }
+        /// <summary>
+        /// Pick a random amount of itens from the collection.
+        /// </summary>
+        /// <typeparam name="T">Item type</typeparam>
+        /// <param name="collection">The collection</param>
+        /// <param name="count">Amount of itens</param>
+        /// <returns></returns>
+        public static IEnumerable<T> PickRandom<T>(this IEnumerable<T> collection, int count)
+        {
+            return collection.Shuffle().Take(count);
+        }
+        /// <summary>
+        /// Shuffle the collection.
+        /// </summary>
+        /// <typeparam name="T">Item type</typeparam>
+        /// <param name="collection">The collection</param>
+        /// <returns></returns>
+        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> collection)
+        {
+            return collection.OrderBy(i => Guid.NewGuid());
         }
     }
 }

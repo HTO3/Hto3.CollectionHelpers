@@ -62,11 +62,14 @@
     <Compile Include="GetItemType.cs" />
     <Compile Include="Move.cs" />
     <Compile Include="IsUnderCollectionChangedEvent.cs" />
+    <Compile Include="PickRandom.cs" />
+    <Compile Include="PickRandomOrDefault.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RemoveAll.cs" />
     <Compile Include="RemoveIfExists.cs" />
     <Compile Include="ReplaceAllBy.cs" />
     <Compile Include="ReplaceItem.cs" />
+    <Compile Include="Shuffle.cs" />
     <Compile Include="SymmetricDifference.cs" />
     <Compile Include="ToObservableCollection.cs" />
     <Compile Include="TryUntilSuccess.cs" />

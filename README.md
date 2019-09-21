@@ -203,3 +203,43 @@ Makes a work window in a data collection.
 ```csharp
 //To-do put an example
 ```
+
+### TryUntilSuccess
+
+Try something on each item of a collection.
+
+```csharp
+//To-do put an example
+```
+
+### PickRandom
+
+Pick a random item from the collection or the default item value if the sequence contains no elements.
+
+```csharp
+//To-do put an example
+```
+
+### PickRandomOrDefault
+
+Pick a random item from the collection or the default item value if the sequence contains no elements.
+
+```csharp
+//To-do put an example
+```
+
+### Shuffle
+
+Shuffle the collection.
+
+```csharp
+//To-do put an example
+```
+
+### Run
+
+Force one complete evaluation of an IEnumerable collection. Subsequent evaluation can occur after use this method, in another words, the collection will continue to be IEnumerable.
+
+```csharp
+//To-do put an example
+```
