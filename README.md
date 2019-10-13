@@ -3,8 +3,9 @@
 Hto3.CollectionHelpers
 ========================================
 
-#### Nuget Package
-[![Hto3.CollectionHelpers](https://img.shields.io/nuget/v/Hto3.CollectionHelpers.svg)](https://www.nuget.org/packages/Hto3.CollectionHelpers/)
+|Nuget Package|Build|
+|---|---|
+|[![Hto3.CollectionHelpers](https://img.shields.io/nuget/v/Hto3.CollectionHelpers.svg)](https://www.nuget.org/packages/Hto3.CollectionHelpers/)|[![Build Status](https://travis-ci.org/HTO3/Hto3.CollectionHelpers.svg?branch=master)](https://travis-ci.org/HTO3/Hto3.CollectionHelpers)|
 
 Features
 --------
