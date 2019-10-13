@@ -4,4 +4,6 @@ dotnet: 3.0.100
 solution: Hto3.CollectionHelpers.sln
 script:
   - dotnet restore
+  - ls -l
+  - choco install opencover.portable
   - dotnet test -f netcoreapp3.0
