@@ -16,7 +16,6 @@ namespace Hto3.CollectionHelpers.Test
         [TestMethod]
         public void ConfirmThatWeAreInEventExecution()
         {
-#if NETFRAMEWORK
             //Prepare
             var onEvent = false;
             var observableCollection = new ObservableCollection<String>();
@@ -31,15 +30,13 @@ namespace Hto3.CollectionHelpers.Test
             //Assert
             Assert.IsTrue(onEvent);
             Assert.AreEqual(observableCollection[0], "first");
-#endif
         }
 
         [TestMethod]
         public void ConfirmThatWeAreNotInEventExecution()
         {
-#if NETFRAMEWORK
             //Prepare
-            var observableCollection = new ObservableCollection<String>();
+             var observableCollection = new ObservableCollection<String>();
 
             //Act
             var onEventBefore = observableCollection.IsUnderCollectionChangedEvent();
@@ -50,7 +47,6 @@ namespace Hto3.CollectionHelpers.Test
             Assert.IsFalse(onEventBefore);
             Assert.AreEqual(observableCollection[0], "first");
             Assert.IsFalse(onEventAfter);
-#endif
         }
     }
 }

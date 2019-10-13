@@ -65,6 +65,7 @@ namespace Hto3.CollectionHelpers
 
             return output.ToString();
         }
+#if NETFRAMEWORK
         /// <summary>
         /// Check if the execution stack is within a CollectionChanged call of an ObservableCollection
         /// </summary>
@@ -85,6 +86,7 @@ namespace Hto3.CollectionHelpers
 
             return monitorIsBusy;
         }
+#endif
         /// <summary>
         /// Build a list from a delimited string.
         /// </summary>
