@@ -1,5 +1,6 @@
 language: csharp
 mono: none
+os: windows
 dotnet: 3.0.100
 solution: Hto3.CollectionHelpers.sln
 script:
