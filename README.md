@@ -5,7 +5,7 @@ Hto3.CollectionHelpers
 
 |Nuget Package|Build|Test Coverage|
 |---|---|---|
-|[![Hto3.CollectionHelpers](https://img.shields.io/nuget/v/Hto3.CollectionHelpers.svg)](https://www.nuget.org/packages/Hto3.CollectionHelpers/)|[![Build Status](https://travis-ci.org/HTO3/Hto3.CollectionHelpers.svg?branch=master)](https://travis-ci.org/HTO3/Hto3.CollectionHelpers)|[![Coverage Status](https://coveralls.io/repos/github/HTO3/Hto3.CollectionHelpers/badge.svg?branch=master)](https://coveralls.io/github/HTO3/Hto3.CollectionHelpers?branch=master)|
+|[![Hto3.CollectionHelpers](https://img.shields.io/nuget/v/Hto3.CollectionHelpers.svg)](https://www.nuget.org/packages/Hto3.CollectionHelpers/)|[![Build Status](https://travis-ci.org/HTO3/Hto3.CollectionHelpers.svg?branch=master)](https://travis-ci.org/HTO3/Hto3.CollectionHelpers)|[![codecov](https://codecov.io/gh/HTO3/Hto3.CollectionHelpers/branch/master/graph/badge.svg)](https://codecov.io/gh/HTO3/Hto3.CollectionHelpers)|
 
 Features
 --------
