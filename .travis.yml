@@ -3,9 +3,8 @@ mono: none
 dotnet: 3.0.100
 solution: Hto3.CollectionHelpers.sln
 script:
-  - dotnet restore
-  - ls -l
+  - dotnet build -c Release -f netcoreapp3.0 -v normal
   - dotnet test -f netcoreapp3.0 /p:CollectCoverage=true /p:CoverletOutputFormat=lcov
   - curl -s https://codecov.io/bash > codecov
   - chmod +x codecov
-  - ./codecov -f "Hto3.CollectionHelpers.Test/coverage.info" -t f2b8d14c-9a2e-46eb-8df4-577d5846d127
+  - ./codecov -f "Hto3.CollectionHelpers.Test/coverage.info" -t $CODECOV_UPLOAD_TOKEN
