@@ -1,10 +1,16 @@
 language: csharp
-mono: none
 dotnet: 3.0.100
-solution: Hto3.CollectionHelpers.sln
-script:
-  - dotnet build -c Release -f netcoreapp3.0 -v normal
-  - dotnet test -f netcoreapp3.0 /p:CollectCoverage=true /p:CoverletOutputFormat=lcov
-  - curl -s https://codecov.io/bash > codecov
-  - chmod +x codecov
-  - ./codecov -f "Hto3.CollectionHelpers.Test/coverage.info" -t $CODECOV_UPLOAD_TOKEN
+jobs:
+  include:
+    - stage: build
+      script:
+        - dotnet build Hto3.CollectionHelpers/Hto3.CollectionHelpers.csproj -f netstandard2.1
+        - dotnet build Hto3.CollectionHelpers/Hto3.CollectionHelpers.csproj -f netstandard2.0
+    - stage: test
+      script:
+        - dotnet test -f netcoreapp3.0 /p:CollectCoverage=true /p:CoverletOutputFormat=lcov
+    - stage: upload-test-coverage
+      script:
+        - curl -s https://codecov.io/bash > codecov
+        - chmod +x codecov
+        - ./codecov -f "Hto3.CollectionHelpers.Test/coverage.info" -t $CODECOV_UPLOAD_TOKEN
