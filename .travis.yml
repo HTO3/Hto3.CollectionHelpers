@@ -12,6 +12,7 @@ jobs:
         - dotnet test -f netcoreapp3.0 /p:CollectCoverage=true /p:CoverletOutputFormat=lcov
     - stage: upload-test-coverage
       script:
+        - dotnet test -f netcoreapp3.0 /p:CollectCoverage=true /p:CoverletOutputFormat=lcov
         - curl -s https://codecov.io/bash > codecov
         - chmod +x codecov
         - ./codecov -f "Hto3.CollectionHelpers.Test/coverage.info" -t $CODECOV_UPLOAD_TOKEN
