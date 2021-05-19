@@ -3,9 +3,11 @@
 Hto3.CollectionHelpers
 ========================================
 
-|Nuget Package|Build|Test Coverage|
-|---|---|---|
-|[![Hto3.CollectionHelpers](https://img.shields.io/nuget/v/Hto3.CollectionHelpers.svg)](https://www.nuget.org/packages/Hto3.CollectionHelpers/)|[![Build Status](https://travis-ci.org/HTO3/Hto3.CollectionHelpers.svg?branch=master)](https://travis-ci.org/HTO3/Hto3.CollectionHelpers)|[![codecov](https://codecov.io/gh/HTO3/Hto3.CollectionHelpers/branch/master/graph/badge.svg)](https://codecov.io/gh/HTO3/Hto3.CollectionHelpers)|
+[![License](https://img.shields.io/github/license/HTO3/Hto3.CollectionHelpers)](https://github.com/HTO3/Hto3.CollectionHelpers/blob/master/LICENSE)
+[![Hto3.CollectionHelpers](https://img.shields.io/nuget/v/Hto3.CollectionHelpers.svg)](https://www.nuget.org/packages/Hto3.CollectionHelpers/)
+[![Downloads](https://img.shields.io/nuget/dt/Hto3.CollectionHelpers)](https://www.nuget.org/stats/packages/Hto3.CollectionHelpers?groupby=Version)
+[![Build Status](https://travis-ci.org/HTO3/Hto3.CollectionHelpers.svg?branch=master)](https://travis-ci.org/HTO3/Hto3.CollectionHelpers)
+[![codecov](https://codecov.io/gh/HTO3/Hto3.CollectionHelpers/branch/master/graph/badge.svg)](https://codecov.io/gh/HTO3/Hto3.CollectionHelpers)
 
 Features
 --------
