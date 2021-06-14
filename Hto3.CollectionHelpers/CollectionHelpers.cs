@@ -8,6 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 
 namespace Hto3.CollectionHelpers
 {
@@ -88,7 +89,7 @@ namespace Hto3.CollectionHelpers
         }
 #endif
         /// <summary>
-        /// Build a list from a delimited string.
+        /// Build a typed list from a delimited string.
         /// </summary>
         /// <typeparam name="TReturn">Type of the itens of the collection</typeparam>
         /// <param name="delimitedList">String containing a list of delimited values</param>
@@ -96,8 +97,23 @@ namespace Hto3.CollectionHelpers
         /// <returns></returns>
         public static IEnumerable<TReturn> BuildCollectionFromString<TReturn>(this String delimitedList, String separator)
         {
+            return BuildCollectionFromString<TReturn>(delimitedList, separator, Thread.CurrentThread.CurrentCulture);
+        }
+        /// <summary>
+        /// Build a typed list from a delimited string.
+        /// </summary>
+        /// <typeparam name="TReturn">Type of the itens of the collection</typeparam>
+        /// <param name="delimitedList">String containing a list of delimited values</param>
+        /// <param name="separator">Separator that is used to delimit the itens</param>
+        /// <param name="formatProvider">Format provider to item parse.</param>
+        /// <returns></returns>
+        public static IEnumerable<TReturn> BuildCollectionFromString<TReturn>(this String delimitedList, String separator, IFormatProvider formatProvider)
+        {
+            if (formatProvider == null)
+                throw new ArgumentNullException(nameof(formatProvider), $"The {formatProvider} cannot be null.");
+
             foreach (var item in delimitedList.Split(new String[] { separator }, StringSplitOptions.RemoveEmptyEntries))
-                yield return (TReturn)Convert.ChangeType(item, typeof(TReturn));
+                yield return (TReturn)Convert.ChangeType(item, typeof(TReturn), formatProvider);
         }
         /// <summary>
         /// Removes all elements that satisfy the condition defined by the specified predicate
@@ -210,15 +226,24 @@ namespace Hto3.CollectionHelpers
             return collection;
         }
         /// <summary>
-        /// Replaces all items in an ObservableCollection with other items. It's the same as calling the <i>Clear()</i> method and then adding the new items, but reducing the procedure to only one step and improving the performance.
+        /// Replaces all items in an ObservableCollection with other items. It's the same as calling the <i>Clear()</i> method and then adding the new items (optmized performance).
         /// </summary>
         /// <typeparam name="T">Type of the collection item</typeparam>
         /// <param name="observableCollection">The observable collection</param>
         /// <param name="toAdd">Items to add</param>
         public static void ReplaceAllBy<T>(this ObservableCollection<T> observableCollection, IEnumerable<T> toAdd)
         {
-            if (observableCollection == null || !toAdd.EmptyIfNull().Any())
+            if (observableCollection == null)
                 return;
+
+            if (toAdd == null)
+                throw new ArgumentNullException(nameof(toAdd), $"The parameter {nameof(toAdd)} cannot be null.");
+
+            if (!toAdd.Any())
+            {
+                observableCollection.Clear();
+                return;
+            }
 
             var type = observableCollection.GetType();
 
@@ -616,10 +641,11 @@ namespace Hto3.CollectionHelpers
             throw new AggregateException(exceptionList);
         }
         /// <summary>
-        /// Pick a random item from the collection.
+        /// Pick a random item from the collection. 
         /// </summary>
         /// <typeparam name="T">Item type</typeparam>
         /// <param name="collection">The collection</param>
+        /// <exception cref="System.InvalidOperationException">The source sequence is empty.</exception>
         /// <returns></returns>
         public static T PickRandom<T>(this IEnumerable<T> collection)
         {

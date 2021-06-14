@@ -40,21 +40,22 @@ collection.Describe() == "1, 2, 3";
 Check if the execution stack is within a CollectionChanged call of an ObservableCollection.
 
 ```csharp
-var onEvent = false;
 var observableCollection = new ObservableCollection<String>();
 
 observableCollection.CollectionChanged += new NotifyCollectionChangedEventHandler((sender, e) =>
 {
-    onEvent = observableCollection.IsUnderCollectionChangedEvent();
+    var onEvent = observableCollection.IsUnderCollectionChangedEvent();
+    if (onEvent)
+    {
+        Console.WriteLine("We are inside a collection changed event!");
+    }
 });
 observableCollection.Add("first");
-
-onEvent == true;
 ```
 
 ### BuildCollectionFromString
 
-Build a list from a delimited string.
+Build a typed list from a delimited string.
 
 ```csharp
 var delimitedString = "banana;apple;juice;lemon";
@@ -65,6 +66,16 @@ result.ElementAt(0) == "banana";
 result.ElementAt(1) == "apple";
 result.ElementAt(2) == "juice";
 result.ElementAt(3) == "lemon";
+```
+Or dealing with cultural content:
+```csharp
+var delimitedString = "30/07/2019;01/12/2020;26/02/2021";
+
+var result = delimitedString.BuildCollectionFromString<DateTime>(";", new System.Globalization.CultureInfo("pt-BR"));
+
+result.ElementAt(0) == new DateTime(2019, 7, 30);
+result.ElementAt(1) == new DateTime(2020, 12, 1);
+result.ElementAt(2) == new DateTime(2021, 2, 26);
 ```
 
 ### RemoveAll
@@ -113,7 +124,7 @@ Flatten a tree structure.
 
 ### ReplaceAllBy
 
-Replaces all items in an ObservableCollection with other items. It's the same as calling the `Clear()` method and then adding the new items, but reducing the procedure to only one step and improving the performance.
+Replaces all items in an ObservableCollection with other items. It's the same as calling the <i>Clear()</i> method and then adding the new items (optmized performance).
 
 ```csharp
 //To-do put an example
