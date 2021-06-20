@@ -617,7 +617,7 @@ namespace Hto3.CollectionHelpers
         {
             if (enumeration == null)
                 throw new ArgumentNullException(nameof(enumeration));
-            if (stopIfExceptionType != null && stopIfExceptionType.IsAssignableFrom(typeof(Exception)))
+            if (stopIfExceptionType != null && !typeof(Exception).IsAssignableFrom(stopIfExceptionType))
                 throw new ArgumentException($"The type {stopIfExceptionType} is not an exception");
 
             var exceptionList = new List<Exception>();
