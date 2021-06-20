@@ -284,28 +284,27 @@ namespace Hto3.CollectionHelpers
             type.InvokeMember("OnCollectionChanged", BindingFlags.Instance | BindingFlags.InvokeMethod | BindingFlags.NonPublic, null, observableCollection, new object[] { new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset) });
         }
         /// <summary>
-        /// Add multiple items to a collection
+        /// Add multiple items to an ArrayList.
         /// </summary>
-        /// <typeparam name="T">Tipo dos itens da coleção</typeparam>
-        /// <param name="list">Instância da coleção</param>
-        /// <param name="toAdd">Coleção de itens a adicionar</param>
-        public static void AddRange<T>(this ICollection<T> list, IEnumerable<T> toAdd)
+        /// <param name="arrayList">ArrayList instance.</param>
+        /// <param name="toAdd">Items to add.</param>
+        public static void AddRange(this ArrayList arrayList, IEnumerable toAdd)
         {
-            if (list == null)
-                throw new ArgumentNullException(nameof(list));
+            if (arrayList == null)
+                throw new ArgumentNullException(nameof(arrayList));
             if (toAdd == null)
                 return;
 
             foreach (var item in toAdd)
-                list.Add(item);
+                arrayList.Add(item);
         }
         /// <summary>
-        /// Add multiple items to a collection without repeating if the item already exists
+        /// Add multiple items to a collection without repeating if the item already exists.
         /// </summary>
-        /// <typeparam name="T">Tipo dos itens da coleção</typeparam>
-        /// <param name="list">Instância da coleção</param>
-        /// <param name="predicate">Pedicado que testa a existência do item</param>
-        /// <param name="toAdd">Coleção de itens a adicionar</param>
+        /// <typeparam name="T">Collection items type.</typeparam>
+        /// <param name="list">Collection instance.</param>
+        /// <param name="predicate">Predicate to ensure equality.</param>
+        /// <param name="toAdd">Items to add.</param>
         public static void AddRangeIfNotExists<T>(this ICollection<T> list, Func<T, T, Boolean> predicate, IEnumerable<T> toAdd)
         {
             if (list == null)
@@ -322,11 +321,11 @@ namespace Hto3.CollectionHelpers
             }
         }
         /// <summary>
-        /// Add multiple items to a collection without repeating
+        /// Add multiple items to a collection without repeating.
         /// </summary>
-        /// <typeparam name="T">Tipo dos itens da coleção</typeparam>
-        /// <param name="list">Instância da coleção</param>
-        /// <param name="toAdd">Coleção de itens a adicionar</param>
+        /// <typeparam name="T">Collection items type.</typeparam>
+        /// <param name="list">Collection instance.</param>
+        /// <param name="toAdd">Items to add.</param>
         public static void AddRangeIfNotExists<T>(this ICollection<T> list, IEnumerable<T> toAdd)
         {
             if (toAdd != null)
@@ -339,36 +338,36 @@ namespace Hto3.CollectionHelpers
             }
         }
         /// <summary>
-        /// Moves a position item
+        /// Moves a position item.
         /// </summary>
-        /// <typeparam name="T">Tipo dos itens da coleção</typeparam>
-        /// <param name="list">Instância da coleção</param>
-        /// <param name="item"></param>
-        /// <param name="toIndex">Lugar aonde colocar o item</param>
+        /// <typeparam name="T">Collection items type.</typeparam>
+        /// <param name="list">Collection instance.</param>
+        /// <param name="item">Item to move.</param>
+        /// <param name="toIndex">Desired index location.</param>
         public static void Move<T>(this IList<T> list, T item, Int32 toIndex)
         {
             list.Remove(item);
             list.Insert(toIndex, item);
         }
         /// <summary>
-        /// Moves a position item
+        /// Moves a position item.
         /// </summary>
-        /// <typeparam name="T">Tipo dos itens da coleção</typeparam>
-        /// <param name="list">Instância da coleção</param>
-        /// <param name="predicate">Pedicado que obtém o item</param>
-        /// <param name="toIndex">Lugar aonde colocar o item</param>
+        /// <typeparam name="T">Collection items type.</typeparam>
+        /// <param name="list">Collection instance.</param>
+        /// <param name="predicate">Predicate to get te item equality. Only one item must be found with this predicate.</param>
+        /// <param name="toIndex">Desired index location.</param>
         public static void Move<T>(this IList<T> list, Func<T, Boolean> predicate, Int32 toIndex)
         {
-            var item = list.SingleOrDefault(predicate);
+            var item = list.Single(predicate);
             list.Remove(item);
             list.Insert(toIndex, item);
         }
-        
+
         /// <summary>
         /// Adds an item only if it does not exist in the collection
         /// </summary>
-        /// <param name="list">Coleção de dados</param>
-        /// <param name="item">Item a adicionar</param>
+        /// <param name="list">Collection instance.</param>
+        /// <param name="item">Item to add.</param>
         public static void AddIfNotExists(this IList list, Object item)
         {
             if (list == null)
@@ -381,9 +380,9 @@ namespace Hto3.CollectionHelpers
         /// Adds an item only if it does not exist in the collection
         /// </summary>
         /// <typeparam name="T">Type of item</typeparam>
-        /// <param name="collection">Coleção de dados</param>
-        /// <param name="predicate">Pedicado que testa a existência do item</param>
-        /// <param name="item">Item a adicionar</param>
+        /// <param name="collection">Collection instance.</param>
+        /// <param name="predicate">Predicate to ensure equality.</param>
+        /// <param name="item">Item to add.</param>
         public static void AddIfNotExists<T>(this ICollection<T> collection, Func<T, Boolean> predicate, T item)
         {
             if (collection == null)
@@ -395,10 +394,10 @@ namespace Hto3.CollectionHelpers
                 collection.Add(item);
         }
         /// <summary>
-        /// Removes an item only if it exists in the collection
+        /// Removes an item only if it exists in the collection.
         /// </summary>
-        /// <param name="list">List</param>
-        /// <param name="item">Item to remove</param>
+        /// <param name="list">The list.</param>
+        /// <param name="item">Item to remove.</param>
         public static void RemoveIfExists(this IList list, Object item)
         {
             if (list == null)
@@ -410,8 +409,8 @@ namespace Hto3.CollectionHelpers
         /// <summary>
         /// Gets the type of items in a homogeneous collection
         /// </summary>
-        /// <param name="collection">Coleção de dados</param>
-        /// <returns>O tipo dos itens</returns>
+        /// <param name="collection">Collection instance.</param>
+        /// <returns></returns>
         public static Type GetItemType(this ICollection collection)
         {
             if (collection == null)
@@ -450,10 +449,10 @@ namespace Hto3.CollectionHelpers
             }
         }
         /// <summary>
-        /// Gets the type of items in a homogeneous collection
+        /// Gets the type of items in a homogeneous collection.
         /// </summary>
-        /// <param name="collection">Coleção de dados</param>
-        /// <returns>O tipo dos itens</returns>
+        /// <param name="collection">Collection instance.</param>
+        /// <returns></returns>
         public static Type GetItemType(this IEnumerable collection)
         {
             if (collection == null)
@@ -519,11 +518,11 @@ namespace Hto3.CollectionHelpers
             return result;
         }
         /// <summary>
-        /// Performs immediately an action for each item in the collection
+        /// Performs immediately an action for each item in the collection.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="enumeration"></param>
-        /// <param name="action"></param>
+        /// <typeparam name="T">tem collection to iterate.</typeparam>
+        /// <param name="enumeration">The collection instance.</param>
+        /// <param name="action">Action to perform.</param>
         public static IEnumerable<T> ForEach<T>(this IEnumerable<T> enumeration, Action<T> action)
         {
             if (enumeration == null)
@@ -542,12 +541,12 @@ namespace Hto3.CollectionHelpers
             return lista;
         }
         /// <summary>
-        /// Performs immediately an action for each item in the collection
+        /// Performs immediately an action for each item in the collection that produces a new collection.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <typeparam name="O"></typeparam>
-        /// <param name="enumeration"></param>
-        /// <param name="action"></param>
+        /// <typeparam name="T">Item collection to iterate.</typeparam>
+        /// <typeparam name="O">Projected result.</typeparam>
+        /// <param name="enumeration">The collection instance.</param>
+        /// <param name="action">Action to perform.</param>
         public static IEnumerable<O> ForEachSelect<T, O>(this IEnumerable<T> enumeration, Func<T, O> action)
         {
             if (enumeration == null)
@@ -565,10 +564,10 @@ namespace Hto3.CollectionHelpers
             return list;
         }
         /// <summary>
-        /// Converts a generic collection into an observable collection (ObservableCollection)
+        /// Converts a generic collection into an observable collection (ObservableCollection).
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="enumeration"></param>
+        /// <typeparam name="T">Item type.</typeparam>
+        /// <param name="enumeration">Collection to transform into an ObservableCollection.</param>
         /// <returns></returns>
         public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> enumeration)
         {
@@ -610,8 +609,8 @@ namespace Hto3.CollectionHelpers
         /// <summary>
         /// Try something on each item of a collection.
         /// </summary>
-        /// <typeparam name="T">Item type</typeparam>
-        /// <param name="enumeration">The collection</param>
+        /// <typeparam name="T">Item type.</typeparam>
+        /// <param name="enumeration">The collection.</param>
         /// <param name="attempt">Action that can fail, trowing a exception. Last exception will be provided in the second <i>Action</i> parameter.</param>
         /// <param name="stopIfExceptionType">If an exception of assignable from this type is thrown, then the attempts will be stoped by this exception.</param>
         public static void TryUntilSuccess<T>(this IEnumerable<T> enumeration, Action<T, Exception> attempt, Type stopIfExceptionType = null)
@@ -643,8 +642,8 @@ namespace Hto3.CollectionHelpers
         /// <summary>
         /// Pick a random item from the collection. 
         /// </summary>
-        /// <typeparam name="T">Item type</typeparam>
-        /// <param name="collection">The collection</param>
+        /// <typeparam name="T">Item type.</typeparam>
+        /// <param name="collection">The collection.</param>
         /// <exception cref="System.InvalidOperationException">The source sequence is empty.</exception>
         /// <returns></returns>
         public static T PickRandom<T>(this IEnumerable<T> collection)
@@ -664,9 +663,9 @@ namespace Hto3.CollectionHelpers
         /// <summary>
         /// Pick a random amount of itens from the collection.
         /// </summary>
-        /// <typeparam name="T">Item type</typeparam>
-        /// <param name="collection">The collection</param>
-        /// <param name="count">Amount of itens</param>
+        /// <typeparam name="T">Item type.</typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <param name="count">Amount of itens.</param>
         /// <returns></returns>
         public static IEnumerable<T> PickRandom<T>(this IEnumerable<T> collection, int count)
         {
@@ -675,8 +674,8 @@ namespace Hto3.CollectionHelpers
         /// <summary>
         /// Shuffle the collection.
         /// </summary>
-        /// <typeparam name="T">Item type</typeparam>
-        /// <param name="collection">The collection</param>
+        /// <typeparam name="T">Item type.</typeparam>
+        /// <param name="collection">The collection.</param>
         /// <returns></returns>
         public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> collection)
         {
