@@ -299,7 +299,7 @@ namespace Hto3.CollectionHelpers
                 arrayList.Add(item);
         }
         /// <summary>
-        /// Add multiple items to a collection without repeating if the item already exists.
+        /// Add multiple items to a collection without repeating if the item already exists. Compare itens using a predicate, if the comparison returns true, then we have an item that already exists, so this item will not be added.
         /// </summary>
         /// <typeparam name="T">Collection items type.</typeparam>
         /// <param name="list">Collection instance.</param>
