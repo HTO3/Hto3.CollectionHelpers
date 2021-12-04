@@ -220,7 +220,7 @@ Makes a work window in a data collection.
 
 ### TryUntilSuccess
 
-Try something on each item of a collection.
+Try something on each item of a collection. For more advanced needs, check https://www.nuget.org/packages/Polly/.
 
 ```csharp
 //To-do put an example

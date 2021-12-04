@@ -607,8 +607,11 @@ namespace Hto3.CollectionHelpers
             }
         }
         /// <summary>
-        /// Try something on each item of a collection.
+        /// Try something on each item of a collection. 
         /// </summary>
+        /// <remarks>
+        /// For more advanced needs, check https://www.nuget.org/packages/Polly/.
+        /// </remarks>
         /// <typeparam name="T">Item type.</typeparam>
         /// <param name="enumeration">The collection.</param>
         /// <param name="attempt">Action that can fail, trowing a exception. Last exception will be provided in the second <i>Action</i> parameter.</param>
