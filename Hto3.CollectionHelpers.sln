@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29409.12
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hto3.CollectionHelpers", "Hto3.CollectionHelpers\Hto3.CollectionHelpers.csproj", "{B3B25198-D1F1-4ABB-801C-BD5D6CB6C008}"
 EndProject
@@ -9,7 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
-		.travis.yml = .travis.yml
 		LICENSE = LICENSE
 		nuget-logo.png = nuget-logo.png
 		nuget-logo.psd = nuget-logo.psd
@@ -17,6 +16,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hto3.CollectionHelpers.Test", "Hto3.CollectionHelpers.Test\Hto3.CollectionHelpers.Test.csproj", "{6932B2DD-6812-47D4-B02E-2A073DDB05A7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{B3E2FF11-1939-4F71-97ED-F40AB2F1A146}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{E904539F-9B48-43A1-8655-79A050DAF259}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\publish.yml = .github\workflows\publish.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +41,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B3E2FF11-1939-4F71-97ED-F40AB2F1A146} = {6729211D-FA98-43D6-A134-3B3A4315523D}
+		{E904539F-9B48-43A1-8655-79A050DAF259} = {B3E2FF11-1939-4F71-97ED-F40AB2F1A146}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {30E3D061-59B6-409D-8559-7924FA2B989D}
