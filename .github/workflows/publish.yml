@@ -1,4 +1,4 @@
-name: Hto3.SimpleSpecsDetector Pipeline
+name: Hto3.CollectionHelpers Pipeline
 on:
   push:
     branches:
