@@ -1,4 +1,4 @@
-name: Hto3.CollectionHelpers Pipeline
+name: build
 on:
   push:
     branches:
