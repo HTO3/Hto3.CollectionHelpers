@@ -8,6 +8,7 @@ Hto3.CollectionHelpers
 [![Downloads](https://img.shields.io/nuget/dt/Hto3.CollectionHelpers)](https://www.nuget.org/stats/packages/Hto3.CollectionHelpers?groupby=Version)
 [![Build Status](https://github.com/HTO3/Hto3.CollectionHelpers/actions/workflows/publish.yml/badge.svg)](https://github.com/HTO3/Hto3.CollectionHelpers/actions/workflows/publish.yml)
 [![codecov](https://codecov.io/gh/HTO3/Hto3.CollectionHelpers/branch/master/graph/badge.svg)](https://codecov.io/gh/HTO3/Hto3.CollectionHelpers)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/a0dfd6171df24d6b97676b6e8fcc799d)](https://www.codacy.com/gh/HTO3/Hto3.CollectionHelpers/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=HTO3/Hto3.CollectionHelpers&amp;utm_campaign=Badge_Grade)
 
 Features
 --------
