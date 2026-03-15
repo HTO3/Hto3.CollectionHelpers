@@ -22,7 +22,7 @@ jobs:
       - uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 10.0.x
-      - run: dotnet test -f net8.0 /p:CollectCoverage=true /p:CoverletOutputFormat=lcov
+      - run: dotnet test -f net10.0 /p:CollectCoverage=true /p:CoverletOutputFormat=lcov
       - run: curl -s https://codecov.io/bash > codecov
       - run: chmod +x codecov
       - run: ./codecov -f "Hto3.CollectionHelpers.Test/coverage.info" -t ${{secrets.CODECOV_UPLOAD_TOKEN}}
