@@ -25,10 +25,10 @@ namespace Hto3.CollectionHelpers.Test
             collection.ReplaceItem("apple", "strawberry");
 
             //Assert
-            Assert.AreEqual(collection.Count, 3);
-            Assert.AreEqual(collection[0], "banana");
-            Assert.AreEqual(collection[1], "strawberry");
-            Assert.AreEqual(collection[2], "pinapple");
+            Assert.AreEqual(3, collection.Count);
+            Assert.AreEqual("banana", collection[0]);
+            Assert.AreEqual("strawberry", collection[1]);
+            Assert.AreEqual("pinapple", collection[2]);
         }
     }
 }

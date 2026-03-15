@@ -13,12 +13,12 @@ using System.Threading;
 namespace Hto3.CollectionHelpers
 {
     /// <summary>
-    /// Class containing helpers for collection manipulation.
+    /// Contains helper methods for collection manipulation.
     /// </summary>
     public static class CollectionHelpers
     {
         /// <summary>
-        /// If the collection is null then returns an empty collection
+        /// If the collection is null, returns an empty collection.
         /// </summary>
         /// <typeparam name="T">Collection item type</typeparam>
         /// <param name="source">Collection to test if is null</param>
@@ -27,9 +27,21 @@ namespace Hto3.CollectionHelpers
         {
             return source ?? Enumerable.Empty<T>();
         }
-
         /// <summary>
-        /// If the collection is null then returns an empty collection
+        /// Determines whether the specified sequence is null or contains no elements.
+        /// </summary>
+        /// <remarks>Use this method to safely check for both null and empty sequences when working with
+        /// collections. This extension method is useful for avoiding null reference exceptions and simplifying
+        /// conditional logic.</remarks>
+        /// <typeparam name="T">The type of elements in the sequence.</typeparam>
+        /// <param name="source">The sequence to check for null or emptiness.</param>
+        /// <returns>true if the sequence is null or contains no elements; otherwise, false.</returns>
+        public static Boolean IsNullOrEmpty<T>(this IEnumerable<T> source)
+        {
+            return source == null || !source.Any();
+        }
+        /// <summary>
+        /// If the collection is null, returns an empty collection.
         /// </summary>
         /// <param name="source">Collection to test if is null</param>
         /// <returns></returns>
@@ -38,12 +50,12 @@ namespace Hto3.CollectionHelpers
             return source ?? Enumerable.Empty<Object>();
         }
         /// <summary>
-        /// Describes a list in a user-friendly String allowing you to define the format of the item (like String.Format), and the string to use to separate the items. Similar experience like String.Join <example>List of Int32: 1, 2, 3, 4</example>
+        /// Describes a list as a user-friendly string, allowing you to define the format for each item (like <c>String.Format</c>) and the separator string. Similar to <c>String.Join</c>.
         /// </summary>
         /// <typeparam name="T">Collection type</typeparam>
         /// <param name="collection">The collection</param>
-        /// <param name="format">Format string, the same as used in <i>String.Format</i> method. It's necessary to use one, and only one {0} token.</param>
-        /// <param name="separator">String to separate the itens</param>
+        /// <param name="format">Format string, the same as used in <i>String.Format</i>. The format must contain exactly one {0} token.</param>
+        /// <param name="separator">String to separate the items.</param>
         /// <returns></returns>
         public static String Describe<T>(this IEnumerable<T> collection, String format = "{0}", String separator = ", ")
         {
@@ -68,7 +80,7 @@ namespace Hto3.CollectionHelpers
         }
 #if NETFRAMEWORK
         /// <summary>
-        /// Check if the execution stack is within a CollectionChanged call of an ObservableCollection
+        /// Checks whether the execution stack is within an ObservableCollection's <c>CollectionChanged</c> call.
         /// </summary>
         /// <param name="collection">The observable collection</param>
         /// <returns></returns>
@@ -89,7 +101,7 @@ namespace Hto3.CollectionHelpers
         }
 #endif
         /// <summary>
-        /// Build a typed list from a delimited string.
+        /// Builds a typed list from a delimited string.
         /// </summary>
         /// <typeparam name="TReturn">Type of the itens of the collection</typeparam>
         /// <param name="delimitedList">String containing a list of delimited values</param>
@@ -100,12 +112,12 @@ namespace Hto3.CollectionHelpers
             return BuildCollectionFromString<TReturn>(delimitedList, separator, Thread.CurrentThread.CurrentCulture);
         }
         /// <summary>
-        /// Build a typed list from a delimited string.
+        /// Builds a typed list from a delimited string.
         /// </summary>
-        /// <typeparam name="TReturn">Type of the itens of the collection</typeparam>
-        /// <param name="delimitedList">String containing a list of delimited values</param>
-        /// <param name="separator">Separator that is used to delimit the itens</param>
-        /// <param name="formatProvider">Format provider to item parse.</param>
+        /// <typeparam name="TReturn">Type of the items in the collection.</typeparam>
+        /// <param name="delimitedList">String containing a list of delimited values.</param>
+        /// <param name="separator">Separator used to delimit the items.</param>
+        /// <param name="formatProvider">Format provider used to parse each item.</param>
         /// <returns></returns>
         public static IEnumerable<TReturn> BuildCollectionFromString<TReturn>(this String delimitedList, String separator, IFormatProvider formatProvider)
         {
@@ -116,7 +128,7 @@ namespace Hto3.CollectionHelpers
                 yield return (TReturn)Convert.ChangeType(item, typeof(TReturn), formatProvider);
         }
         /// <summary>
-        /// Removes all elements that satisfy the condition defined by the specified predicate
+        /// Removes all elements that satisfy the specified predicate.
         /// </summary>
         /// <typeparam name="T">Type of the collection item</typeparam>
         /// <param name="collection">The collection</param>
@@ -137,7 +149,7 @@ namespace Hto3.CollectionHelpers
         /// </summary>
         /// <typeparam name="T">Type of the collection item</typeparam>
         /// <param name="collection">The collection</param>
-        /// <param name="oldItem">Old item (old item must exist)</param>
+        /// <param name="oldItem">Old item. The old item must exist in the collection.</param>
         /// <param name="newItem">The new item</param>
         public static void ReplaceItem<T>(this ObservableCollection<T> collection, T oldItem, T newItem)
         {
@@ -153,7 +165,7 @@ namespace Hto3.CollectionHelpers
                 .Invoke(collection, new Object[] { oldIndex, newItem });
         }
         /// <summary>
-        /// Replaces an item in an ObservableCollection.
+        /// Replaces an item in an ObservableCollection by index.
         /// </summary>
         /// <typeparam name="T">Type of the collection item</typeparam>
         /// <param name="collection">The collection</param>
@@ -169,12 +181,12 @@ namespace Hto3.CollectionHelpers
                 .Invoke(collection, new Object[] { index, newItem });
         }
         /// <summary>
-        /// Flatten a tree structure
+        /// Flattens a tree structure.
         /// </summary>
-        /// <typeparam name="T">Tree nodes item type</typeparam>
-        /// <param name="roots">The multi root tree</param>
-        /// <param name="branchLocator">Expression that indicate where is the branch property</param>
-        /// <returns></returns>
+        /// <typeparam name="T">Tree node item type.</typeparam>
+        /// <param name="roots">The multi-root tree.</param>
+        /// <param name="branchLocator">Function that returns the children of a node.</param>
+        /// <returns>A set with all visited nodes.</returns>
         public static HashSet<T> FlatTree<T>(this IEnumerable<T> roots, Func<T, IEnumerable<T>> branchLocator)
         {
             var flattedTree = new HashSet<T>();
@@ -182,12 +194,12 @@ namespace Hto3.CollectionHelpers
             return flattedTree;
         }
         /// <summary>
-        /// Flatten a tree structure
+        /// Flattens a tree starting from a single root node.
         /// </summary>
-        /// <typeparam name="T">Tree nodes item type</typeparam>
-        /// <param name="root">The Tree</param>
-        /// <param name="branchLocator">Expression that indicate where is the branch property</param>
-        /// <returns></returns>
+        /// <typeparam name="T">Tree node item type.</typeparam>
+        /// <param name="root">The root node.</param>
+        /// <param name="branchLocator">Function that returns the children of a node.</param>
+        /// <returns>A set with all visited nodes.</returns>
         public static HashSet<T> FlatTree<T>(this T root, Func<T, IEnumerable<T>> branchLocator)
         {
             if (root == null)
@@ -199,12 +211,12 @@ namespace Hto3.CollectionHelpers
             return alreadyVisited;
         }
         /// <summary>
-        /// Internal method to flat a tree structure, witch contains a walking collection to store the nodes.
+        /// Internal method to flatten a tree structure which uses a collection to store visited nodes.
         /// </summary>
-        /// <typeparam name="T">Tree nodes item type</typeparam>
-        /// <param name="branches">The multi root tree</param>
-        /// <param name="branchLocator">Expression that indicate where is the branch property</param>
-        /// <param name="alreadyVisited">Collection to store the nodes</param>
+        /// <typeparam name="T">Tree node item type.</typeparam>
+        /// <param name="branches">The branches to traverse.</param>
+        /// <param name="branchLocator">Function that returns the children of a node.</param>
+        /// <param name="alreadyVisited">Collection used to store visited nodes.</param>
         /// <returns></returns>
         private static void InternalFlatTree<T>(IEnumerable<T> branches, Func<T, IEnumerable<T>> branchLocator, HashSet<T> alreadyVisited)
         {
@@ -215,7 +227,8 @@ namespace Hto3.CollectionHelpers
             }
         }
         /// <summary>
-        /// Force one complete evaluation of an IEnumerable collection. Subsequent evaluation can occur after use this method, in another words, the collection will continue to be IEnumerable.
+        /// Forces a complete evaluation of an <see cref="IEnumerable{T}"/> collection.
+        /// Subsequent evaluations can still occur after using this method; in other words, the collection remains an <see cref="IEnumerable{T}"/>.
         /// </summary>
         /// <typeparam name="T">Item type</typeparam>
         /// <param name="collection">IEnumerable collection</param>
@@ -226,7 +239,7 @@ namespace Hto3.CollectionHelpers
             return collection;
         }
         /// <summary>
-        /// Replaces all items in an ObservableCollection with other items. It's the same as calling the <i>Clear()</i> method and then adding the new items (optmized performance).
+        /// Replaces all items in an ObservableCollection with other items. It's equivalent to calling <i>Clear()</i> and then adding the new items (optimized for performance).
         /// </summary>
         /// <typeparam name="T">Type of the collection item</typeparam>
         /// <param name="observableCollection">The observable collection</param>
@@ -260,11 +273,11 @@ namespace Hto3.CollectionHelpers
             type.InvokeMember("OnCollectionChanged", BindingFlags.Instance | BindingFlags.InvokeMethod | BindingFlags.NonPublic, null, observableCollection, new object[] { new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset) });
         }
         /// <summary>
-        /// Add multiple items to a collection invoking the change event only one time, at the end.
+        /// Adds multiple items to a collection, raising the change event only once at the end.
         /// </summary>
-        /// <typeparam name="T">>Type of the collection item</typeparam>
-        /// <param name="observableCollection">The observable collection</param>
-        /// <param name="toAdd">Items to add</param>
+        /// <typeparam name="T">Type of the collection item.</typeparam>
+        /// <param name="observableCollection">The observable collection.</param>
+        /// <param name="toAdd">Items to add.</param>
         public static void AddRange<T>(this ObservableCollection<T> observableCollection, IEnumerable<T> toAdd)
         {
             if (observableCollection == null || !toAdd.EmptyIfNull().Any())
@@ -299,11 +312,11 @@ namespace Hto3.CollectionHelpers
                 arrayList.Add(item);
         }
         /// <summary>
-        /// Add multiple items to a collection without repeating if the item already exists. Compare itens using a predicate, if the comparison returns true, then we have an item that already exists, so this item will not be added.
+        /// Adds multiple items to a collection without duplicating existing items. Compares items using a predicate; if the predicate returns true for an existing item, the new item will not be added.
         /// </summary>
-        /// <typeparam name="T">Collection items type.</typeparam>
+        /// <typeparam name="T">Collection item type.</typeparam>
         /// <param name="list">Collection instance.</param>
-        /// <param name="predicate">Predicate to ensure equality.</param>
+        /// <param name="predicate">Predicate used to determine equality between items.</param>
         /// <param name="toAdd">Items to add.</param>
         public static void AddRangeIfNotExists<T>(this ICollection<T> list, Func<T, T, Boolean> predicate, IEnumerable<T> toAdd)
         {
@@ -321,9 +334,9 @@ namespace Hto3.CollectionHelpers
             }
         }
         /// <summary>
-        /// Add multiple items to a collection without repeating.
+        /// Adds multiple items to a collection without duplicating existing items.
         /// </summary>
-        /// <typeparam name="T">Collection items type.</typeparam>
+        /// <typeparam name="T">Collection item type.</typeparam>
         /// <param name="list">Collection instance.</param>
         /// <param name="toAdd">Items to add.</param>
         public static void AddRangeIfNotExists<T>(this ICollection<T> list, IEnumerable<T> toAdd)
@@ -338,9 +351,9 @@ namespace Hto3.CollectionHelpers
             }
         }
         /// <summary>
-        /// Moves a position item.
+        /// Moves an item to a different position in the list.
         /// </summary>
-        /// <typeparam name="T">Collection items type.</typeparam>
+        /// <typeparam name="T">Collection item type.</typeparam>
         /// <param name="list">Collection instance.</param>
         /// <param name="item">Item to move.</param>
         /// <param name="toIndex">Desired index location.</param>
@@ -350,11 +363,11 @@ namespace Hto3.CollectionHelpers
             list.Insert(toIndex, item);
         }
         /// <summary>
-        /// Moves a position item.
+        /// Moves an item that matches a predicate to a different position in the list.
         /// </summary>
-        /// <typeparam name="T">Collection items type.</typeparam>
+        /// <typeparam name="T">Collection item type.</typeparam>
         /// <param name="list">Collection instance.</param>
-        /// <param name="predicate">Predicate to get te item equality. Only one item must be found with this predicate.</param>
+        /// <param name="predicate">Predicate to identify the item to move. Exactly one item must match this predicate.</param>
         /// <param name="toIndex">Desired index location.</param>
         public static void Move<T>(this IList<T> list, Func<T, Boolean> predicate, Int32 toIndex)
         {
@@ -364,7 +377,7 @@ namespace Hto3.CollectionHelpers
         }
 
         /// <summary>
-        /// Adds an item only if it does not exist in the collection
+        /// Adds an item only if it does not exist in the collection.
         /// </summary>
         /// <param name="list">Collection instance.</param>
         /// <param name="item">Item to add.</param>
@@ -377,7 +390,7 @@ namespace Hto3.CollectionHelpers
                 list.Add(item);
         }
         /// <summary>
-        /// Adds an item only if it does not exist in the collection
+        /// Adds an item only if it does not exist in the collection.
         /// </summary>
         /// <typeparam name="T">Type of item</typeparam>
         /// <param name="collection">Collection instance.</param>
@@ -407,10 +420,10 @@ namespace Hto3.CollectionHelpers
                 list.Remove(item);
         }
         /// <summary>
-        /// Gets the type of items in a homogeneous collection
+        /// Gets the type of items in a homogeneous collection.
         /// </summary>
         /// <param name="collection">Collection instance.</param>
-        /// <returns></returns>
+        /// <returns>The item <see cref="Type"/>.</returns>
         public static Type GetItemType(this ICollection collection)
         {
             if (collection == null)
@@ -452,7 +465,7 @@ namespace Hto3.CollectionHelpers
         /// Gets the type of items in a homogeneous collection.
         /// </summary>
         /// <param name="collection">Collection instance.</param>
-        /// <returns></returns>
+        /// <returns>The item <see cref="Type"/>.</returns>
         public static Type GetItemType(this IEnumerable collection)
         {
             if (collection == null)
@@ -493,7 +506,7 @@ namespace Hto3.CollectionHelpers
         }
         /// <summary>
         /// Gets the symmetric difference of two sets using an equality comparer.
-        /// The symmetric difference is defined as the set of elements which are in one of the sets, but not in both.
+        /// The symmetric difference is the set of elements that are in one set but not in both.
         /// </summary>
         /// <remarks>
         /// If one set has duplicate items when evaluated using the comparer, then the resulting symmetric difference will only
@@ -518,9 +531,9 @@ namespace Hto3.CollectionHelpers
             return result;
         }
         /// <summary>
-        /// Performs immediately an action for each item in the collection.
+        /// Immediately performs an action for each item in the collection.
         /// </summary>
-        /// <typeparam name="T">tem collection to iterate.</typeparam>
+        /// <typeparam name="T">Item collection to iterate.</typeparam>
         /// <param name="enumeration">The collection instance.</param>
         /// <param name="action">Action to perform.</param>
         public static IEnumerable<T> ForEach<T>(this IEnumerable<T> enumeration, Action<T> action)
@@ -541,12 +554,12 @@ namespace Hto3.CollectionHelpers
             return lista;
         }
         /// <summary>
-        /// Performs immediately an action for each item in the collection that produces a new collection.
+        /// Immediately performs an action for each item in the collection and returns a new collection of the results.
         /// </summary>
         /// <typeparam name="T">Item collection to iterate.</typeparam>
-        /// <typeparam name="O">Projected result.</typeparam>
+        /// <typeparam name="O">Projected result type.</typeparam>
         /// <param name="enumeration">The collection instance.</param>
-        /// <param name="action">Action to perform.</param>
+        /// <param name="action">Function to perform for each item.</param>
         public static IEnumerable<O> ForEachSelect<T, O>(this IEnumerable<T> enumeration, Func<T, O> action)
         {
             if (enumeration == null)
@@ -564,7 +577,7 @@ namespace Hto3.CollectionHelpers
             return list;
         }
         /// <summary>
-        /// Converts a generic collection into an observable collection (ObservableCollection).
+        /// Converts a generic collection into an <see cref="ObservableCollection{T}"/>.
         /// </summary>
         /// <typeparam name="T">Item type.</typeparam>
         /// <param name="enumeration">Collection to transform into an ObservableCollection.</param>
@@ -577,12 +590,12 @@ namespace Hto3.CollectionHelpers
             return new ObservableCollection<T>(enumeration);
         }
         /// <summary>
-        /// Makes a work window in a data collection
+        /// Creates a sliding window over a collection and executes an action for each window.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="enumeration">Collection of data to be worked with window</param>
-        /// <param name="windowSize">Amount of items in each window</param>
-        /// <param name="action">Work to do in each window</param>
+        /// <typeparam name="T">Item type.</typeparam>
+        /// <param name="enumeration">Collection of data to process in windows.</param>
+        /// <param name="windowSize">Number of items in each window.</param>
+        /// <param name="action">Action to execute for each window.</param>
         public static void Window<T>(this IEnumerable<T> enumeration, Int32 windowSize, Action<IEnumerable<T>> action)
         {
             if (enumeration == null)
@@ -607,15 +620,15 @@ namespace Hto3.CollectionHelpers
             }
         }
         /// <summary>
-        /// Try something on each item of a collection. 
+        /// Tries an action on each item of a collection until one attempt succeeds.
         /// </summary>
         /// <remarks>
-        /// For more advanced needs, check https://www.nuget.org/packages/Polly/.
+        /// For more advanced needs, see https://www.nuget.org/packages/Polly/.
         /// </remarks>
         /// <typeparam name="T">Item type.</typeparam>
         /// <param name="enumeration">The collection.</param>
-        /// <param name="attempt">Action that can fail, trowing a exception. Last exception will be provided in the second <i>Action</i> parameter.</param>
-        /// <param name="stopIfExceptionType">If an exception of assignable from this type is thrown, then the attempts will be stoped by this exception.</param>
+        /// <param name="attempt">Action that can fail, throwing an exception. The most recent exception (if any) is provided as the second parameter.</param>
+        /// <param name="stopIfExceptionType">If an exception that is assignable from this type is thrown, attempts will stop and the exception will be rethrown.</param>
         public static void TryUntilSuccess<T>(this IEnumerable<T> enumeration, Action<T, Exception> attempt, Type stopIfExceptionType = null)
         {
             if (enumeration == null)
@@ -643,7 +656,7 @@ namespace Hto3.CollectionHelpers
             throw new AggregateException(exceptionList);
         }
         /// <summary>
-        /// Pick a random item from the collection. 
+        /// Picks a random item from the collection.
         /// </summary>
         /// <typeparam name="T">Item type.</typeparam>
         /// <param name="collection">The collection.</param>
@@ -654,7 +667,7 @@ namespace Hto3.CollectionHelpers
             return collection.PickRandom(1).First<T>();
         }
         /// <summary>
-        /// Pick a random item from the collection or the default item value if the sequence contains no elements.
+        /// Picks a random item from the collection or the default value if the sequence contains no elements.
         /// </summary>
         /// <typeparam name="T">Item type</typeparam>
         /// <param name="collection">The collection</param>
@@ -664,7 +677,7 @@ namespace Hto3.CollectionHelpers
             return collection.PickRandom(1).FirstOrDefault();
         }
         /// <summary>
-        /// Pick a random amount of itens from the collection.
+        /// Picks a random number of items from the collection.
         /// </summary>
         /// <typeparam name="T">Item type.</typeparam>
         /// <param name="collection">The collection.</param>
@@ -675,7 +688,7 @@ namespace Hto3.CollectionHelpers
             return collection.Shuffle().Take(count);
         }
         /// <summary>
-        /// Shuffle the collection.
+        /// Shuffles the collection.
         /// </summary>
         /// <typeparam name="T">Item type.</typeparam>
         /// <param name="collection">The collection.</param>

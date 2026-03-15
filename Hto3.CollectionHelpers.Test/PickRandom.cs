@@ -25,17 +25,13 @@ namespace Hto3.CollectionHelpers.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(System.InvalidOperationException))]
         public void NormalUseEmptyCollection()
         {
             //Arrange
             var COLLECTION = new Int32[0];
 
-            //Act
-            var result = CollectionHelpers.PickRandom(COLLECTION);
-
-            //Assert
-            Assert.Fail();
+            //Act & Assert
+            TestAssert.Throws<InvalidOperationException>(() => CollectionHelpers.PickRandom(COLLECTION));
         }
     }
 }

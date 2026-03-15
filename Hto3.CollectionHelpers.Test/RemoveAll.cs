@@ -27,9 +27,9 @@ namespace Hto3.CollectionHelpers.Test
             collection.RemoveAll(i => i > 10);
 
             //Assert
-            Assert.AreEqual(collection.Count, 2);
-            Assert.AreEqual(collection[0], 1);
-            Assert.AreEqual(collection[1], 2);
+            Assert.AreEqual(2, collection.Count);
+            Assert.AreEqual(1, collection[0]);
+            Assert.AreEqual(2, collection[1]);
         }
 
         [TestMethod]
@@ -46,23 +46,19 @@ namespace Hto3.CollectionHelpers.Test
             collection.RemoveAll(i => i == 1 || i == 55);
 
             //Assert
-            Assert.AreEqual(collection.Count, 2);
-            Assert.AreEqual(collection[0], 2);
-            Assert.AreEqual(collection[1], 100);
+            Assert.AreEqual(2, collection.Count);
+            Assert.AreEqual(2, collection[0]);
+            Assert.AreEqual(100, collection[1]);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void NullCollection()
         {
             //Prepare
             var collection = default(ObservableCollection<Int32>);
 
-            //Act
-            collection.RemoveAll(i => i == 1 || i == 55);
-
-            //Assert
-            Assert.Fail();
+            //Act & Assert
+            TestAssert.Throws<ArgumentNullException>(() => collection.RemoveAll(i => i == 1 || i == 55));
         }
     }
 }

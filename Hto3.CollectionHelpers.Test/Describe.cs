@@ -22,21 +22,17 @@ namespace Hto3.CollectionHelpers.Test
 
             //Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(result, String.Empty);
+            Assert.AreEqual(String.Empty, result);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(FormatException))]
         public void InvalidFormat()
         {
             //Prepare
             var collection = new List<String>();
 
-            //Act
-            var result = collection.Describe("ddddd");
-
-            //Assert
-            Assert.Fail();
+            //Act & Assert
+            TestAssert.Throws<FormatException>(() => collection.Describe("ddddd"));
         }
 
         [TestMethod]
@@ -51,7 +47,7 @@ namespace Hto3.CollectionHelpers.Test
             var result = collection.Describe(separator: null);
 
             //Assert
-            Assert.AreEqual(result, "applebanana");
+            Assert.AreEqual("applebanana", result);
         }
 
         [TestMethod]
@@ -66,21 +62,17 @@ namespace Hto3.CollectionHelpers.Test
             var result = collection.Describe(format: "{0:dd/MM/yyyy}");
 
             //Assert
-            Assert.AreEqual(result, "22/01/2018, 21/01/2018");
+            Assert.AreEqual("22/01/2018, 21/01/2018", result);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void NullCollection()
         {
             //Prepare
             var collection = default(IEnumerable<Int32>);
 
-            //Act
-            var result = collection.Describe();
-
-            //Assert
-            Assert.Fail();
+            //Act & Assert
+            TestAssert.Throws<ArgumentNullException>(() => collection.Describe());
         }
 
         [TestMethod]
@@ -96,7 +88,7 @@ namespace Hto3.CollectionHelpers.Test
             var result = collection.Describe();
 
             //Assert
-            Assert.AreEqual(result, "1, 2, 3");
+            Assert.AreEqual("1, 2, 3", result);
         }
     }
 }

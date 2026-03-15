@@ -12,11 +12,11 @@ Hto3.CollectionHelpers
 
 Features
 --------
-A set of extension methods that can be used to facilitate the manipulation of collections solving common dev problems.
+A set of extension methods that facilitate manipulation of collections and solve common development problems.
 
 ### EmptyIfNull
 
-If the collection is null then returns an empty collection.
+If the collection is null, returns an empty collection.
 
 ```csharp
 IEnumerable<String> myCollection = null;
@@ -25,7 +25,7 @@ myCollection.EmptyIfNull().Count() == 0; //you won't get a NullReferenceExceptio
 
 ### Describe
 
-Describes a list in a user-friendly String allowing you to define the format of the item (like `String.Format`), and the string to use to separate the items. Similar experience like `String.Join`.
+Describes a list in a user-friendly string, allowing you to define the format for each item (like `String.Format`) and the string used to separate the items. Similar to `String.Join`.
 
 ```csharp
 var collection = new List<Int32>();
@@ -38,7 +38,7 @@ collection.Describe() == "1, 2, 3";
 
 ### IsUnderCollectionChangedEvent
 
-Check if the execution stack is within a CollectionChanged call of an ObservableCollection.
+Checks whether the execution stack is within a CollectionChanged event handler of an ObservableCollection.
 
 ```csharp
 var observableCollection = new ObservableCollection<String>();
@@ -56,7 +56,7 @@ observableCollection.Add("first");
 
 ### BuildCollectionFromString
 
-Build a typed list from a delimited string.
+Builds a typed list from a delimited string.
 
 ```csharp
 var delimitedString = "banana;apple;juice;lemon";
@@ -81,7 +81,7 @@ result.ElementAt(2) == new DateTime(2021, 2, 26);
 
 ### RemoveAll
 
-Removes all elements that satisfy the condition defined by the specified predicate.
+Removes all elements that satisfy the specified predicate.
 
 ```csharp
 var collection = new ObservableCollection<Int32>();
@@ -117,7 +117,7 @@ collection[2] == "pinapple";
 
 ### FlatTree
 
-Flatten a tree structure.
+Flattens a tree structure.
 
 ```csharp
 //To-do put an example
@@ -125,7 +125,7 @@ Flatten a tree structure.
 
 ### ReplaceAllBy
 
-Replaces all items in an ObservableCollection with other items. It's the same as calling the <i>Clear()</i> method and then adding the new items (optmized performance).
+Replaces all items in an ObservableCollection with other items. It's equivalent to calling <i>Clear()</i> and then adding the new items (optimized for performance).
 
 ```csharp
 //To-do put an example
@@ -133,7 +133,7 @@ Replaces all items in an ObservableCollection with other items. It's the same as
 
 ### AddRange
 
-Add multiple items to a collection invoking the change event only one time, at the end.
+Adds multiple items to a collection, invoking the change event only once at the end.
 
 ```csharp
 //To-do put an example
@@ -141,7 +141,7 @@ Add multiple items to a collection invoking the change event only one time, at t
 
 ### AddRangeIfNotExists
 
-Add multiple items to a collection without repeating if the item already exists.
+Adds multiple items to a collection without adding duplicates if an item already exists.
 
 ```csharp
 //To-do put an example
@@ -149,7 +149,7 @@ Add multiple items to a collection without repeating if the item already exists.
 
 ### Move
 
-Moves a position item.
+Moves an item to a different position.
 
 ```csharp
 //To-do put an example
@@ -157,7 +157,7 @@ Moves a position item.
 
 ### AddIfNotExists
 
-Adds an item only if it does not exist in the collection.
+Adds an item only if it does not already exist in the collection.
 
 ```csharp
 //To-do put an example
@@ -173,7 +173,7 @@ Removes an item only if it exists in the collection.
 
 ### GetItemType
 
-Gets the type of items in a homogeneous collection.
+Gets the item type in a homogeneous collection.
 
 ```csharp
 //To-do put an example
@@ -181,7 +181,7 @@ Gets the type of items in a homogeneous collection.
 
 ### SymmetricDifference
 
-Gets the symmetric difference of two sets using an equality comparer. The symmetric difference is defined as the set of elements which are in one of the sets, but not in both.
+Gets the symmetric difference of two sets using an equality comparer. The symmetric difference is the set of elements that are in one of the sets but not in both.
 
 ```csharp
 //To-do put an example
@@ -189,7 +189,7 @@ Gets the symmetric difference of two sets using an equality comparer. The symmet
 
 ### ForEach
 
-Performs immediately an action for each item in the collection.
+Immediately performs an action for each item in the collection.
 
 ```csharp
 //To-do put an example
@@ -197,7 +197,7 @@ Performs immediately an action for each item in the collection.
 
 ### ForEachSelect
 
-Performs immediately an action for each item in the collection.
+Immediately performs an action for each item in the collection.
 
 ```csharp
 //To-do put an example
@@ -205,7 +205,7 @@ Performs immediately an action for each item in the collection.
 
 ### ToObservableCollection
 
-Converts a generic collection into an observable collection (ObservableCollection).
+Converts a generic collection into an `ObservableCollection`.
 
 ```csharp
 //To-do put an example
@@ -213,7 +213,7 @@ Converts a generic collection into an observable collection (ObservableCollectio
 
 ### Window
 
-Makes a work window in a data collection.
+Creates a sliding window over a collection.
 
 ```csharp
 //To-do put an example
@@ -221,7 +221,7 @@ Makes a work window in a data collection.
 
 ### TryUntilSuccess
 
-Try something on each item of a collection. For more advanced needs, check https://www.nuget.org/packages/Polly/.
+Attempts an operation on each item of a collection until it succeeds. For advanced retry policies, see https://www.nuget.org/packages/Polly/.
 
 ```csharp
 //To-do put an example
@@ -229,7 +229,7 @@ Try something on each item of a collection. For more advanced needs, check https
 
 ### PickRandom
 
-Pick a random item from the collection or the default item value if the sequence contains no elements.
+Picks a random item from the collection or the default value if the sequence contains no elements.
 
 ```csharp
 //To-do put an example
@@ -237,7 +237,7 @@ Pick a random item from the collection or the default item value if the sequence
 
 ### PickRandomOrDefault
 
-Pick a random item from the collection or the default item value if the sequence contains no elements.
+Picks a random item from the collection or the default value if the sequence contains no elements.
 
 ```csharp
 //To-do put an example
@@ -245,7 +245,7 @@ Pick a random item from the collection or the default item value if the sequence
 
 ### Shuffle
 
-Shuffle the collection.
+Shuffles the collection.
 
 ```csharp
 //To-do put an example
@@ -254,6 +254,14 @@ Shuffle the collection.
 ### Run
 
 Force one complete evaluation of an IEnumerable collection. Subsequent evaluation can occur after use this method, in another words, the collection will continue to be IEnumerable.
+
+```csharp
+//To-do put an example
+```
+
+### IsNullOrEmpty
+
+Determines whether the specified sequence is null or contains no elements.
 
 ```csharp
 //To-do put an example

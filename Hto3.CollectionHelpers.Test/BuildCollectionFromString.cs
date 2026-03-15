@@ -21,11 +21,11 @@ namespace Hto3.CollectionHelpers.Test
             var result = delimitedString.BuildCollectionFromString<Int32>(",");
 
             //Assert
-            Assert.AreEqual(result.ElementAt(0), 1);
-            Assert.AreEqual(result.ElementAt(1), 4);
-            Assert.AreEqual(result.ElementAt(2), 5);
-            Assert.AreEqual(result.ElementAt(3), 88);
-            Assert.AreEqual(result.ElementAt(4), 122);
+            Assert.AreEqual(1, result.ElementAt(0));
+            Assert.AreEqual(4, result.ElementAt(1));
+            Assert.AreEqual(5, result.ElementAt(2));
+            Assert.AreEqual(88, result.ElementAt(3));
+            Assert.AreEqual(122, result.ElementAt(4));
         }
 
         [TestMethod]
@@ -38,10 +38,10 @@ namespace Hto3.CollectionHelpers.Test
             var result = delimitedString.BuildCollectionFromString<String>(";");
 
             //Assert
-            Assert.AreEqual(result.ElementAt(0), "banana");
-            Assert.AreEqual(result.ElementAt(1), "apple");
-            Assert.AreEqual(result.ElementAt(2), "juice");
-            Assert.AreEqual(result.ElementAt(3), "lemon");
+            Assert.AreEqual("banana", result.ElementAt(0));
+            Assert.AreEqual("apple", result.ElementAt(1));
+            Assert.AreEqual("juice", result.ElementAt(2));
+            Assert.AreEqual("lemon", result.ElementAt(3));
         }
 
         [TestMethod]
@@ -54,7 +54,7 @@ namespace Hto3.CollectionHelpers.Test
             var result = delimitedString.BuildCollectionFromString<String>(";");
 
             //Assert
-            Assert.AreEqual(result.ElementAt(0), "banana");
+            Assert.AreEqual("banana", result.ElementAt(0));
         }
     }
 }

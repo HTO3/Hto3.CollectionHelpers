@@ -15,36 +15,42 @@ namespace Hto3.CollectionHelpers.Test
         {
             //Prepare
             var list = new List<Int32>(new[] { 1, 2, 3, 4 });
+            var succeeded = false;
+            Exception lastExceptionObserved = null;
+
             var attempt = new Action<Int32, Exception>((item, lastException) =>
             {
+                // capture the last exception passed to the attempt
+                lastExceptionObserved = lastException;
+
                 if (item < 3)
                     throw new IndexOutOfRangeException();
+
+                // mark success when the action does not throw
+                succeeded = true;
             });
 
             //Act
             list.TryUntilSuccess(attempt);
 
-            //Asserts
-            Assert.IsTrue(true);
+            //Asserts: ensure the attempt eventually succeeded and the lastException passed was the expected one
+            Assert.IsTrue(succeeded, "The attempt did not succeed for any item in the collection.");
+            Assert.IsNotNull(lastExceptionObserved, "Expected a previous exception to be passed to the successful attempt.");
+            Assert.IsInstanceOfType(lastExceptionObserved, typeof(IndexOutOfRangeException));
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void ValidationTestCollectionNull()
         {
             //Prepare
             const IEnumerable<Int32> NULL_ENUMERATOR = null;
             var NOT_RELEVANT_ACTION = new Action<Int32, Exception>((item, lastException) => { });
 
-            //Act
-            CollectionHelpers.TryUntilSuccess(NULL_ENUMERATOR, NOT_RELEVANT_ACTION);
-
-            //Assert
-            Assert.Fail();
+            //Act & Assert
+            TestAssert.Throws<ArgumentNullException>(() => CollectionHelpers.TryUntilSuccess(NULL_ENUMERATOR, NOT_RELEVANT_ACTION));
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void ValidationTestExceptionMustBeException()
         {
             //Prepare
@@ -52,15 +58,11 @@ namespace Hto3.CollectionHelpers.Test
             var NOT_RELEVANT_ACTION = new Action<Int32, Exception>((item, lastException) => { });
             var NOT_EXCEPTION_TYPE = typeof(Int32);
 
-            //Act
-            CollectionHelpers.TryUntilSuccess(NOT_RELEVANT_LIST, NOT_RELEVANT_ACTION, NOT_EXCEPTION_TYPE);
-
-            //Assert
-            Assert.Fail();
+            //Act & Assert
+            TestAssert.Throws<ArgumentException>(() => CollectionHelpers.TryUntilSuccess(NOT_RELEVANT_LIST, NOT_RELEVANT_ACTION, NOT_EXCEPTION_TYPE));
         }
 
         [TestMethod]
-        [ExpectedException(typeof(AggregateException))]
         public void NoSuccessCase()
         {
             //Prepare
@@ -71,15 +73,11 @@ namespace Hto3.CollectionHelpers.Test
                     throw new IndexOutOfRangeException();
             });
 
-            //Act
-            list.TryUntilSuccess(attempt);
-
-            //Asserts
-            Assert.Fail();
+            //Act & Assert
+            TestAssert.Throws<AggregateException>(() => list.TryUntilSuccess(attempt));
         }
 
         [TestMethod]
-        [ExpectedException(typeof(FormatException))]
         public void StopedBySpecificException()
         {
             //Prepare
@@ -92,11 +90,8 @@ namespace Hto3.CollectionHelpers.Test
                     throw new FormatException();
             });
 
-            //Act
-            list.TryUntilSuccess(attempt, typeof(FormatException));
-
-            //Asserts
-            Assert.Fail();
+            //Act & Assert
+            TestAssert.Throws<FormatException>(() => list.TryUntilSuccess(attempt, typeof(FormatException)));
         }
     }
 }

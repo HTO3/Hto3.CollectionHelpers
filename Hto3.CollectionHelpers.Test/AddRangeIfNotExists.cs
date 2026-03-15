@@ -42,33 +42,29 @@ namespace Hto3.CollectionHelpers.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void NullListParameterUsePredicate()
         {
             //Arrange
             var listOriginal = default(List<Int32>);
             var listToAdd = new List<Int32>();
 
-            //Act
-            CollectionHelpers.AddRangeIfNotExists(listOriginal, (alreadyPresent, toAdd) => alreadyPresent == toAdd, listToAdd);
-
-            //Assert
-            Assert.Fail();
+            //Act / Assert
+            Assert.Throws<ArgumentNullException>(() =>
+                CollectionHelpers.AddRangeIfNotExists(listOriginal, (alreadyPresent, toAdd) => alreadyPresent == toAdd, listToAdd)
+            );
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void NullPredicateParameterUsePredicate()
         {
             //Arrange
             var listOriginal = new List<Int32>();
             var listToAdd = new List<Int32>();
 
-            //Act
-            CollectionHelpers.AddRangeIfNotExists(listOriginal, null, listToAdd);
-
-            //Assert
-            Assert.Fail();
+            //Act / Assert
+            Assert.Throws<ArgumentNullException>(() =>
+                CollectionHelpers.AddRangeIfNotExists(listOriginal, null, listToAdd)
+            );
         }
     }
 }

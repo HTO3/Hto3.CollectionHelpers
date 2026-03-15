@@ -44,17 +44,17 @@ namespace Hto3.CollectionHelpers.Test
             
             //Assert
             Assert.AreEqual(11, nodes.Count);
-            Assert.AreEqual(nodes.ElementAt(0), node1);
-            Assert.AreEqual(nodes.ElementAt(1), node9);
-            Assert.AreEqual(nodes.ElementAt(2), node8);
-            Assert.AreEqual(nodes.ElementAt(3), node2);
-            Assert.AreEqual(nodes.ElementAt(4), node7);
-            Assert.AreEqual(nodes.ElementAt(5), node10);
-            Assert.AreEqual(nodes.ElementAt(6), node11);
-            Assert.AreEqual(nodes.ElementAt(7), node6);
-            Assert.AreEqual(nodes.ElementAt(8), node3);
-            Assert.AreEqual(nodes.ElementAt(9), node5);
-            Assert.AreEqual(nodes.ElementAt(10), node4);
+            Assert.AreEqual(node1, nodes.ElementAt(0));
+            Assert.AreEqual(node9, nodes.ElementAt(1));
+            Assert.AreEqual(node8, nodes.ElementAt(2));
+            Assert.AreEqual(node2, nodes.ElementAt(3));
+            Assert.AreEqual(node7, nodes.ElementAt(4));
+            Assert.AreEqual(node10, nodes.ElementAt(5));
+            Assert.AreEqual(node11, nodes.ElementAt(6));
+            Assert.AreEqual(node6, nodes.ElementAt(7));
+            Assert.AreEqual(node3, nodes.ElementAt(8));
+            Assert.AreEqual(node5, nodes.ElementAt(9));
+            Assert.AreEqual(node4, nodes.ElementAt(10));
         }
 
     }

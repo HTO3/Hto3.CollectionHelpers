@@ -24,9 +24,9 @@ namespace Hto3.CollectionHelpers.Test
             list.AddIfNotExists("apple");
 
             //Assert
-            Assert.AreEqual(list.Count, 2);
-            Assert.AreEqual(list[0], "banana");
-            Assert.AreEqual(list[1], "apple");
+            Assert.AreEqual(2, list.Count);
+            Assert.AreEqual("banana", list[0]);
+            Assert.AreEqual("apple", list[1]);
         }
 
         [TestMethod]
@@ -41,10 +41,10 @@ namespace Hto3.CollectionHelpers.Test
             list.AddIfNotExists("pear");
 
             //Assert
-            Assert.AreEqual(list.Count, 3);
-            Assert.AreEqual(list[0], "banana");
-            Assert.AreEqual(list[1], "apple");
-            Assert.AreEqual(list[2], "pear");
+            Assert.AreEqual(3, list.Count);
+            Assert.AreEqual("banana", list[0]);
+            Assert.AreEqual("apple", list[1]);
+            Assert.AreEqual("pear", list[2]);
         }
 
         [TestMethod]
@@ -59,9 +59,9 @@ namespace Hto3.CollectionHelpers.Test
             list.AddIfNotExists((i) => String.Compare("apple", i, true) == 0, "apple");
 
             //Assert
-            Assert.AreEqual(list.Count, 2);
-            Assert.AreEqual(list[0], "banana");
-            Assert.AreEqual(list[1], "Apple");
+            Assert.AreEqual(2, list.Count);
+            Assert.AreEqual("banana", list[0]);
+            Assert.AreEqual("Apple", list[1]);
         }
 
         [TestMethod]
@@ -76,10 +76,10 @@ namespace Hto3.CollectionHelpers.Test
             list.AddIfNotExists((i) => i == "apple" , "apple");
 
             //Assert
-            Assert.AreEqual(list.Count, 3);
-            Assert.AreEqual(list[0], "banana");
-            Assert.AreEqual(list[1], "Apple");
-            Assert.AreEqual(list[2], "apple");
+            Assert.AreEqual(3, list.Count);
+            Assert.AreEqual("banana", list[0]);
+            Assert.AreEqual("Apple", list[1]);
+            Assert.AreEqual("apple", list[2]);
         }
     }
 }

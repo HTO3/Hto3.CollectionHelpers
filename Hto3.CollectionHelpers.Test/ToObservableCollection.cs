@@ -28,17 +28,13 @@ namespace Hto3.CollectionHelpers.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void NullCase()
         {
             //Prepare
             var nullCollection = default(IEnumerable<String>);
 
-            //Act
-            nullCollection.ToObservableCollection();
-
-            //Assert
-            Assert.Fail();
+            //Act & Assert
+            TestAssert.Throws<ArgumentNullException>(() => nullCollection.ToObservableCollection());
         }
     }
 }

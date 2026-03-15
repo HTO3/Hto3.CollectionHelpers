@@ -30,7 +30,7 @@ namespace Hto3.CollectionHelpers.Test
 
             //Assert
             Assert.IsTrue(onEvent);
-            Assert.AreEqual(observableCollection[0], "first");
+            Assert.AreEqual("first", observableCollection[0]);
 #endif
         }
 
@@ -48,7 +48,7 @@ namespace Hto3.CollectionHelpers.Test
 
             //Assert
             Assert.IsFalse(onEventBefore);
-            Assert.AreEqual(observableCollection[0], "first");
+            Assert.AreEqual("first", observableCollection[0]);
             Assert.IsFalse(onEventAfter);
 #endif
         }
